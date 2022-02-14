@@ -26,6 +26,10 @@ namespace store.core.Entities
             _InvoiceDetails.Add(invoiceDetail);
             // _InvoiceDetails.
         }
+        public void removeInvoiceDetail(InvoiceDetail invoiceDetail)
+        {
+            _InvoiceDetails.Remove(invoiceDetail);
+        }
     }
 
 }
