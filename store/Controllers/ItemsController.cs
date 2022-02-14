@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;     
 using store.core.Entities;
 using store.data;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +32,8 @@ namespace testing.Controllers
             {
 
                 Name = data.Name,
-                Price = data.Price
+                Price = data.Price,
+                Code = data.Code
             };
             _context.Items.Add(items);
             _context.SaveChanges();

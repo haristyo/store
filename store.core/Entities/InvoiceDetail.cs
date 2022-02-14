@@ -25,10 +25,10 @@ namespace store.core.Entities
         public int Id { get; set; }
         // [ForeignKey("Item")]
         public int ItemId { get; set; }
-        public virtual Item Item { get; set; }
+        public virtual Item? Item { get; set; }
         // [ForeignKey("Invoice")]
-        public int InvoiceID { get; set; }
-        public virtual Invoice Invoice { get; set; }
+        public int? InvoiceID { get; set; }
+        public virtual Invoice? Invoice { get; set; }
         public double Price { get; set; }
         public int Qty { get; set; }
     }

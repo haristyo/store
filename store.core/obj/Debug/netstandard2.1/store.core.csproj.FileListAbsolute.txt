@@ -8,3 +8,13 @@ C:\Users\User\source\training\store\store.core\obj\Debug\netstandard2.1\store.co
 C:\Users\User\source\training\store\store.core\obj\Debug\netstandard2.1\store.core.csproj.CoreCompileInputs.cache
 C:\Users\User\source\training\store\store.core\obj\Debug\netstandard2.1\store.core.dll
 C:\Users\User\source\training\store\store.core\obj\Debug\netstandard2.1\store.core.pdb
+C:\Haris\.net core\store\store.core\bin\Debug\netstandard2.1\store.core.deps.json
+C:\Haris\.net core\store\store.core\bin\Debug\netstandard2.1\store.core.dll
+C:\Haris\.net core\store\store.core\bin\Debug\netstandard2.1\store.core.pdb
+C:\Haris\.net core\store\store.core\obj\Debug\netstandard2.1\store.core.csproj.AssemblyReference.cache
+C:\Haris\.net core\store\store.core\obj\Debug\netstandard2.1\store.core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Haris\.net core\store\store.core\obj\Debug\netstandard2.1\store.core.AssemblyInfoInputs.cache
+C:\Haris\.net core\store\store.core\obj\Debug\netstandard2.1\store.core.AssemblyInfo.cs
+C:\Haris\.net core\store\store.core\obj\Debug\netstandard2.1\store.core.csproj.CoreCompileInputs.cache
+C:\Haris\.net core\store\store.core\obj\Debug\netstandard2.1\store.core.dll
+C:\Haris\.net core\store\store.core\obj\Debug\netstandard2.1\store.core.pdb

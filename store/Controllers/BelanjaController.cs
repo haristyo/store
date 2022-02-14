@@ -63,7 +63,7 @@ namespace testing.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<InvoiceDTO>> SubmitData([FromBody] List<gettingItem> data)
+        public async Task<ActionResult<InvoiceDTO>> SubmitData([FromBody] List<InvoiceDetail> data)
         {
             Invoice invoice = new Invoice()
             {
@@ -79,19 +79,19 @@ namespace testing.Controllers
             for (int i = 0; i < data.Count; i++)
             {
                 // var item = _context.Items.Find(data[i].Id);
-                var item = _context.Items.FirstOrDefaultAsync(f => f.Id == data[i].id).Result;
+                var item = _context.Items.FirstOrDefaultAsync(f => f.Id == data[i].ItemId).Result;
                 // Console.WriteLine(data[i].id.ToString());
                 var inputInvoiceDetail = new InvoiceDetail()
                 {
-                    ItemId = data[i].id,
+                    ItemId = data[i].ItemId,
                     Item = item,
                     InvoiceID = invoice.Id,
                     Invoice = invoice,
-                    Price = data[i].price,
-                    Qty = data[i].qty,
+                    Price = data[i].Price,
+                    Qty = data[i].Qty,
                 };
 
-                invoice.addInvoiceDetail(data[i].qty, item);
+                invoice.addInvoiceDetail(data[i].Qty, item);
             }
             // _context.Invoices.Add(invoice);
             // _context.SaveChanges();
@@ -121,7 +121,9 @@ namespace testing.Controllers
         {
 
             // var invoice = await _context.Invoices.Include(inv => inv.InvoiceDetails).ToListAsync();
-            var invoice = _context.Invoices.Include(inv => inv.InvoiceDetails).Select(_mapper.Map<Invoice, InvoiceDTO>).ToList();
+            var invoice = _context.Invoices.Include(inv => inv.InvoiceDetails)
+                            .ThenInclude(inv=>inv.Item)
+                            .Select(_mapper.Map<Invoice, InvoiceDTO>).ToList();
             // InvoiceDTO invoiceDTO = _mapper.Map<Invoice, InvoiceDTO>(invoice);
             // InvoiceDTO invoiceDTO = _mapper.Map<Invoice, InvoiceDTO>(invoice);
             // var invoice = _context.Invoices.Select(_mapper.Map<InvoiceDTO>).ToList();
@@ -133,14 +135,14 @@ namespace testing.Controllers
 
     }
 
-    public class gettingItem
-    {
+    //public class gettingItem
+    //{
 
-        public int id { get; set; }
-        public string name { get; set; }
-        public double price { get; set; }
-        public int qty { get; set; }
+    //    public int id { get; set; }
+    //    public string name { get; set; }
+    //    public double price { get; set; }
+    //    public int qty { get; set; }
 
 
-    }
+    //}
 }

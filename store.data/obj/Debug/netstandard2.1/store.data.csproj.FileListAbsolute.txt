@@ -11,3 +11,16 @@ C:\Users\User\source\training\store\store.data\obj\Debug\netstandard2.1\store.da
 C:\Users\User\source\training\store\store.data\obj\Debug\netstandard2.1\store.data.csproj.CopyComplete
 C:\Users\User\source\training\store\store.data\obj\Debug\netstandard2.1\store.data.dll
 C:\Users\User\source\training\store\store.data\obj\Debug\netstandard2.1\store.data.pdb
+C:\Haris\.net core\store\store.data\bin\Debug\netstandard2.1\store.data.deps.json
+C:\Haris\.net core\store\store.data\bin\Debug\netstandard2.1\store.data.dll
+C:\Haris\.net core\store\store.data\bin\Debug\netstandard2.1\store.data.pdb
+C:\Haris\.net core\store\store.data\bin\Debug\netstandard2.1\store.core.dll
+C:\Haris\.net core\store\store.data\bin\Debug\netstandard2.1\store.core.pdb
+C:\Haris\.net core\store\store.data\obj\Debug\netstandard2.1\store.data.csproj.AssemblyReference.cache
+C:\Haris\.net core\store\store.data\obj\Debug\netstandard2.1\store.data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Haris\.net core\store\store.data\obj\Debug\netstandard2.1\store.data.AssemblyInfoInputs.cache
+C:\Haris\.net core\store\store.data\obj\Debug\netstandard2.1\store.data.AssemblyInfo.cs
+C:\Haris\.net core\store\store.data\obj\Debug\netstandard2.1\store.data.csproj.CoreCompileInputs.cache
+C:\Haris\.net core\store\store.data\obj\Debug\netstandard2.1\store.data.csproj.CopyComplete
+C:\Haris\.net core\store\store.data\obj\Debug\netstandard2.1\store.data.dll
+C:\Haris\.net core\store\store.data\obj\Debug\netstandard2.1\store.data.pdb
