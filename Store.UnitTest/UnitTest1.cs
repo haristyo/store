@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using store.data;
 using store.core.Entities;
 using System.Linq;
+using System;
 
 namespace Store.UnitTest
 {
@@ -163,6 +164,56 @@ namespace Store.UnitTest
             //Assert.IsNotNull(target);
         }
 
+        [TestMethod]
+
+        public void TestRemoveInvoice()
+        {
+            AppsContext _Context = GetStoreDBContext();
+            Item item = new Item()
+            {
+                Name = "Beras",
+                Price = 10000,
+                Code = "B123"
+            };
+            _Context.Items.Add(item);
+
+            Invoice invoice = new Invoice()
+            {
+                InvoiceDate = System.DateTime.Now,
+                InvoiceNo = 2703
+            };
+            _Context.Invoices.Add(invoice);
+
+            invoice.addInvoiceDetail(1, item);
+            invoice.addInvoiceDetail(5, item);
+            _Context.SaveChanges();
+            _Context = GetStoreDBContext();
+            Invoice result = _Context.Invoices.Include(inv => inv.InvoiceDetails).ThenInclude(inv => inv.Item).FirstOrDefault();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, invoice.InvoiceDetails.Count());
+
+            //_Context = GetStoreDBContext();
+            //Invoice invoiceHapus = _Context.Invoices.FirstOrDefault();
+            //foreach (var ivd in invoice.InvoiceDetails)
+            //{
+            //    Console.WriteLine(ivd);
+            //    result.removeInvoiceDetail(ivd);
+            //    //_Context.SaveChanges();
+            //}
+            for(var i = 1; i<= result.InvoiceDetails.Count(); i++)
+            {
+                InvoiceDetail target = invoice.InvoiceDetails.Where(f => f.Id == i).FirstOrDefault();
+                result.removeInvoiceDetail(target);
+            }
+            _Context.SaveChanges();
+            _Context = GetStoreDBContext();
+            Invoice hapusInvoice = _Context.Invoices.Where(f => f.InvoiceNo == 2703).FirstOrDefault();
+            _Context.Invoices.Remove(hapusInvoice);
+            _Context.SaveChanges();
+            Assert.AreEqual(0,_Context.Invoices.Count());
+
+        }
 
     }
 }
