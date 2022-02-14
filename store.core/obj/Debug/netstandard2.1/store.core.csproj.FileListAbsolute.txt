@@ -1,0 +1,10 @@
+C:\Users\User\source\training\store\store.core\bin\Debug\netstandard2.1\store.core.deps.json
+C:\Users\User\source\training\store\store.core\bin\Debug\netstandard2.1\store.core.dll
+C:\Users\User\source\training\store\store.core\bin\Debug\netstandard2.1\store.core.pdb
+C:\Users\User\source\training\store\store.core\obj\Debug\netstandard2.1\store.core.csproj.AssemblyReference.cache
+C:\Users\User\source\training\store\store.core\obj\Debug\netstandard2.1\store.core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\training\store\store.core\obj\Debug\netstandard2.1\store.core.AssemblyInfoInputs.cache
+C:\Users\User\source\training\store\store.core\obj\Debug\netstandard2.1\store.core.AssemblyInfo.cs
+C:\Users\User\source\training\store\store.core\obj\Debug\netstandard2.1\store.core.csproj.CoreCompileInputs.cache
+C:\Users\User\source\training\store\store.core\obj\Debug\netstandard2.1\store.core.dll
+C:\Users\User\source\training\store\store.core\obj\Debug\netstandard2.1\store.core.pdb
