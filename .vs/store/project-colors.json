@@ -15,7 +15,22 @@
       "ProjectGuid": "2144f772-c7f8-4196-a70b-4f3a9607b69b",
       "DisplayName": "store.data",
       "ColorIndex": 2
+    },
+    "4da70628-bcfe-4ebd-8e96-62e0309fa199": {
+      "ProjectGuid": "4da70628-bcfe-4ebd-8e96-62e0309fa199",
+      "DisplayName": "UnitTestStore",
+      "ColorIndex": 3
+    },
+    "38fe0f6f-87b3-44ce-9d8e-e7de136813b3": {
+      "ProjectGuid": "38fe0f6f-87b3-44ce-9d8e-e7de136813b3",
+      "DisplayName": "Store.UnitTest",
+      "ColorIndex": 4
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
     }
   },
-  "NextColorIndex": 3
+  "NextColorIndex": 5
 }

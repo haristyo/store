@@ -64,6 +64,7 @@ namespace testing.Controllers
             var items = await _context.Items.FindAsync(id);
             items.Name = data.Name;
             items.Price = data.Price;
+            items.Code = data.Code;
             _context.SaveChanges();
 
             return Ok(items);

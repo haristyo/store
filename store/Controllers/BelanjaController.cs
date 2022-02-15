@@ -26,6 +26,7 @@ namespace testing.Controllers
 
 
         [HttpGet]
+        [Route("Invoice")]
         public async Task<ActionResult<InvoiceDTO>> Get(CancellationToken cancellationToken = default)
         {
             Item item = new Item()
@@ -116,14 +117,30 @@ namespace testing.Controllers
             return Ok(invoiceDTO);
         }
 
-        [Route("Invoice")]
-        public IActionResult getInvoice()
+        [HttpGet]
+        public ActionResult<List<InvoiceDTO>> getInvoice()
+        {
+
+            // var invoice = await _context.Invoices.Include(inv => inv.InvoiceDetails).ToListAsync();
+            var invoice =  _context.Invoices.Include(inv => inv.InvoiceDetails)
+                            .ThenInclude(inv=>inv.Item)
+                            .Select(_mapper.Map<Invoice, InvoiceDTO>);
+            // InvoiceDTO invoiceDTO = _mapper.Map<Invoice, InvoiceDTO>(invoice);
+            // InvoiceDTO invoiceDTO = _mapper.Map<Invoice, InvoiceDTO>(invoice);
+            // var invoice = _context.Invoices.Select(_mapper.Map<InvoiceDTO>).ToList();
+            // InvoiceDTO invoiceDTO = await _mapper.Map<Invoice, InvoiceDTO>(invoice);
+            return Ok(invoice);
+            //[HttpPost]
+        }
+
+        [HttpGet("{id:int}")]
+        public ActionResult getInvoiceById([FromRoute] int id)
         {
 
             // var invoice = await _context.Invoices.Include(inv => inv.InvoiceDetails).ToListAsync();
             var invoice = _context.Invoices.Include(inv => inv.InvoiceDetails)
-                            .ThenInclude(inv=>inv.Item)
-                            .Select(_mapper.Map<Invoice, InvoiceDTO>).ToList();
+                            .ThenInclude(inv => inv.Item)
+                            .Select(_mapper.Map<Invoice, InvoiceDTO>).FirstOrDefault(f=>f.Id == id);
             // InvoiceDTO invoiceDTO = _mapper.Map<Invoice, InvoiceDTO>(invoice);
             // InvoiceDTO invoiceDTO = _mapper.Map<Invoice, InvoiceDTO>(invoice);
             // var invoice = _context.Invoices.Select(_mapper.Map<InvoiceDTO>).ToList();

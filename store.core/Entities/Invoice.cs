@@ -30,6 +30,10 @@ namespace store.core.Entities
         {
             _InvoiceDetails.Remove(invoiceDetail);
         }
+        //public void updateInvoiceDetail(InvoiceDetail invoiceDetail)
+        //{
+        //    _InvoiceDetails.Update(invoiceDetail);
+        //}
     }
 
 }
