@@ -509,9 +509,9 @@ namespace Store.UnitTest
             }
             if(transaksiExist.Count() > 0)
             {
-                foreach(var deletedItem in transaksiExist)
+                foreach(var deletedTransaksi in transaksiExist)
                 {
-                    _Context.InvoiceDetails.Remove(deletedItem);
+                    _Context.InvoiceDetails.Remove(deletedTransaksi);
                 }
             }
             _Context.Entry<Invoice>(invoice).CurrentValues.SetValues(newRequest);
