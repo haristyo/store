@@ -399,8 +399,7 @@ namespace Store.UnitTest
             invoice.addInvoiceDetailFull(new InvoiceDetail()
             {
                 ItemId = item.Id,
-                Item = item,
-                Invoice = invoice,
+             
                 InvoiceID = invoice.Id,
                 Qty = 5,
                 Price = item.Price * 5,
@@ -410,8 +409,6 @@ namespace Store.UnitTest
             invoice.addInvoiceDetailFull(new InvoiceDetail()
             {
                 ItemId = item.Id,
-                Item = item,
-                Invoice = invoice,
                 InvoiceID = invoice.Id,
                 Qty = 5,
                 Price = item.Price * 5,
@@ -442,8 +439,6 @@ namespace Store.UnitTest
             {
                 Id = invoice.InvoiceDetails[1].Id,
                 ItemId = item.Id,
-                Item = item,
-                Invoice = newRequest,
                 InvoiceID = newRequest.Id,
                 Qty = 4,
                 Price = item.Price * 4,
@@ -455,8 +450,6 @@ namespace Store.UnitTest
             newRequest.addInvoiceDetailFull(new InvoiceDetail()
             {
                 ItemId = item.Id,
-                Item = item,
-                Invoice = newRequest,
                 InvoiceID = newRequest.Id,
                 Qty = 2,
                 Price = item.Price * 2,
@@ -467,8 +460,6 @@ namespace Store.UnitTest
             newRequest.addInvoiceDetailFull(new InvoiceDetail()
             {
                 ItemId = item.Id,
-                Item = item,
-                Invoice = newRequest,
                 InvoiceID = newRequest.Id,
                 Qty = 5,
                 Price = item.Price * 5,
@@ -493,17 +484,16 @@ namespace Store.UnitTest
                 else
                 {
                     var addedTransaction =  newItem;
-                    //_Context.InvoiceDetails.Add(newItem);
+                    _Context.InvoiceDetails.Add(newItem);
 
-                    invoice.addInvoiceDetailFull(new InvoiceDetail()
-                    {
-                        ItemId = newItem.Id,
-                        Item = newItem.Item,
-                        Invoice = newItem.Invoice,
-                        InvoiceID = newItem.Invoice.Id,
-                        Qty = newItem.Qty,
-                        Price = newItem.Price * newItem.Qty
-                    });
+                    //invoice.addInvoiceDetailFull(new InvoiceDetail()
+                    //{
+                        
+                    //    ItemId = newItem.Id,
+                    //    InvoiceID = newItem.Invoice.Id,
+                    //    Qty = newItem.Qty,
+                    //    Price = newItem.Price * newItem.Qty
+                    //});
                     
                 };
             }
