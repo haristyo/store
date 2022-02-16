@@ -22,9 +22,5 @@ namespace store.data
             modelBuilder.ApplyConfiguration<InvoiceDetail>(new InvoiceDetailConfiguration());
         }
 
-        public void SavedChanges()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

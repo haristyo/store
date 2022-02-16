@@ -22,8 +22,36 @@ namespace testing.Controllers
         {
             _context = context;
             _mapper = mapper;
-        }
+}
+        [Route("addItem")]
+        public void initItem()
+        {
 
+            Item item = new Item()
+            {
+                Name = "Baju",
+                Price = 10000,
+                Code = "B100"
+            };
+            _context.Items.Add(item);
+            item = new Item()
+            {
+                Name = "Celana",
+                Price = 15000,
+                Code = "B150"
+            };
+            _context.Items.Add(item);
+            _context.SaveChanges();
+            //return Ok(_context.Items.ToList());
+        }
+        [HttpGet]
+        [Route("initItem")]
+        public ActionResult<List<Item>> initItemData()
+        {
+            initItem();
+            List<Item> items = _context.Items.ToList();
+            return Ok(items);
+        }
 
         [HttpGet]
         [Route("Invoice")]
@@ -66,6 +94,10 @@ namespace testing.Controllers
         [HttpPost]
         public async Task<ActionResult<InvoiceDTO>> SubmitData([FromBody] List<InvoiceDetail> data)
         {
+            if (data.Count() < 1)
+            {
+                return BadRequest();
+            }
             Invoice invoice = new Invoice()
             {
                 InvoiceDate = System.DateTime.Now,
@@ -133,6 +165,7 @@ namespace testing.Controllers
             //[HttpPost]
         }
 
+
         [HttpGet("{id:int}")]
         public ActionResult getInvoiceById([FromRoute] int id)
         {
@@ -148,7 +181,70 @@ namespace testing.Controllers
             return Ok(invoice);
             //[HttpPost]
         }
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Invoice>> UpdateDataTransaksi([FromRoute] int id, [FromBody] Invoice data)
+        {
+            Invoice invoice = _context.Invoices.FirstOrDefault(f => f.Id == id);
+            List<InvoiceDetail> transaksiExist = _context.InvoiceDetails.Where(f => f.InvoiceID == id).ToList();
 
+            foreach (var newItem in data.InvoiceDetails)
+            {
+                newItem.InvoiceID = id;
+                if (transaksiExist.Any(f => f.Id == newItem.Id))
+                {
+                    InvoiceDetail transaksi = transaksiExist.First(f => f.Id == newItem.Id);
+                    InvoiceDetail NewTransaksi = new InvoiceDetail()
+                    {
+                        Id = newItem.Id,
+                        ItemId = newItem.ItemId,
+                        InvoiceID = newItem.InvoiceID,
+                        Price = newItem.Price,
+                        Qty = newItem.Qty,
+                    };
+                    _context.Entry<InvoiceDetail>(transaksi).CurrentValues.SetValues(NewTransaksi);
+                    transaksiExist.Remove(transaksi);
+                }
+                else
+                {
+                    //var addedTransaction = newItem;
+                    InvoiceDetail NewTransaksi = new InvoiceDetail()
+                    {
+                        ItemId = newItem.ItemId,
+                        InvoiceID = newItem.InvoiceID,
+                        Price = newItem.Price,
+                        Qty = newItem.Qty,
+                    };
+                    _context.InvoiceDetails.Add(NewTransaksi);
+                };
+            }
+            if (transaksiExist.Count() > 0)
+            {
+                foreach (var deletedTransaksi in transaksiExist)
+                {
+                    InvoiceDetail targetDeletedTransaksi = new InvoiceDetail()
+                    {
+                        
+                        Id = deletedTransaksi.Id,
+                        ItemId = deletedTransaksi.ItemId,
+                        InvoiceID = deletedTransaksi.InvoiceID,
+                        Price = deletedTransaksi.Price,
+                        Qty = deletedTransaksi.Qty,
+                    };
+                    _context.InvoiceDetails.Remove(targetDeletedTransaksi);
+                }
+            }
+            _context.Entry<Invoice>(invoice).CurrentValues.SetValues(data);
+             _context.SaveChanges();
+
+            var hasil = _context.Invoices.Include(inv => inv.InvoiceDetails)
+                           .ThenInclude(inv => inv.Item)
+                           .Select(_mapper.Map<Invoice, InvoiceDTO>).FirstOrDefault(f => f.Id == id);
+            // InvoiceDTO invoiceDTO = _mapper.Map<Invoice, InvoiceDTO>(invoice);
+            // InvoiceDTO invoiceDTO = _mapper.Map<Invoice, InvoiceDTO>(invoice);
+            // var invoice = _context.Invoices.Select(_mapper.Map<InvoiceDTO>).ToList();
+            // InvoiceDTO invoiceDTO = await _mapper.Map<Invoice, InvoiceDTO>(invoice);
+            return Ok(hasil);
+        }
 
     }
 

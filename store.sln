@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "store.core", "store.core\st
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "store.data", "store.data\store.data.csproj", "{2144F772-C7F8-4196-A70B-4F3A9607B69B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.UnitTest", "Store.UnitTest\Store.UnitTest.csproj", "{38FE0F6F-87B3-44CE-9D8E-E7DE136813B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.UnitTest", "Store.UnitTest\Store.UnitTest.csproj", "{38FE0F6F-87B3-44CE-9D8E-E7DE136813B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
