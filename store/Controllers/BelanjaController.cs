@@ -117,9 +117,9 @@ namespace testing.Controllers
                 var inputInvoiceDetail = new InvoiceDetail()
                 {
                     ItemId = data[i].ItemId,
-                    Item = item,
+                    //Item = item,
                     InvoiceID = invoice.Id,
-                    Invoice = invoice,
+                    //Invoice = invoice,
                     Price = data[i].Price,
                     Qty = data[i].Qty,
                 };
@@ -181,18 +181,19 @@ namespace testing.Controllers
             return Ok(invoice);
             //[HttpPost]
         }
+
         [HttpPut("{id}")]
-        public async Task<ActionResult<Invoice>> UpdateDataTransaksi([FromRoute] int id, [FromBody] Invoice data)
+        public async Task<ActionResult<Invoice>> UpdateDataTransaksi([FromRoute] int id, [FromBody] List<InvoiceDetail> data)
         {
             Invoice invoice = _context.Invoices.FirstOrDefault(f => f.Id == id);
             List<InvoiceDetail> transaksiExist = _context.InvoiceDetails.Where(f => f.InvoiceID == id).ToList();
 
-            foreach (var newItem in data.InvoiceDetails)
+            foreach (var newItem in data)
             {
-                newItem.InvoiceID = id;
+                //newItem.InvoiceID = id;
                 if (transaksiExist.Any(f => f.Id == newItem.Id))
                 {
-                    InvoiceDetail transaksi = transaksiExist.First(f => f.Id == newItem.Id);
+                    InvoiceDetail transaksi = transaksiExist.FirstOrDefault(f => f.Id == newItem.Id);
                     InvoiceDetail NewTransaksi = new InvoiceDetail()
                     {
                         Id = newItem.Id,
@@ -233,17 +234,20 @@ namespace testing.Controllers
                     _context.InvoiceDetails.Remove(targetDeletedTransaksi);
                 }
             }
-            _context.Entry<Invoice>(invoice).CurrentValues.SetValues(data);
-             _context.SaveChanges();
+            invoice.InvoiceDate = DateTime.Now;
+            //_context.Entry<Invoice>(invoice).CurrentValues.SetValues(data);
+            _context.SaveChanges();
 
-            var hasil = _context.Invoices.Include(inv => inv.InvoiceDetails)
-                           .ThenInclude(inv => inv.Item)
-                           .Select(_mapper.Map<Invoice, InvoiceDTO>).FirstOrDefault(f => f.Id == id);
+            //var hasil = _context.Invoices.Include(inv => inv.InvoiceDetails)
+            //               .ThenInclude(inv => inv.Item)
+            //               .Select(_mapper.Map<Invoice, InvoiceDTO>).FirstOrDefault(f => f.Id == id);
+
+
             // InvoiceDTO invoiceDTO = _mapper.Map<Invoice, InvoiceDTO>(invoice);
             // InvoiceDTO invoiceDTO = _mapper.Map<Invoice, InvoiceDTO>(invoice);
             // var invoice = _context.Invoices.Select(_mapper.Map<InvoiceDTO>).ToList();
             // InvoiceDTO invoiceDTO = await _mapper.Map<Invoice, InvoiceDTO>(invoice);
-            return Ok(hasil);
+            return Ok("Berhasil diupdate");
         }
 
     }

@@ -837,6 +837,9 @@ namespace Store.UnitTest
             invoiceDetailRepository.Insert(invoiceDetail);
             _context.SaveChanges();
 
+            invoiceRepository = GetInvoiceRepository();
+            Invoice newInvoice = invoiceRepository.getSingle(targetInvoice.Id).Result;
+            Assert.IsNotNull(newInvoice);
 
             invoiceDetailRepository = GetInvoiceDetailRepository();
             InvoiceDetail newInvoiceDetail = invoiceDetailRepository.getSingle(invoiceDetail.Id).Result;
@@ -846,7 +849,65 @@ namespace Store.UnitTest
             Assert.AreEqual(1, listInvoiceDetail.Count());
 
         }
+        [TestMethod]
+        public void InsertInvoiceDetailFromParentWithRepository()
+        {
+            IItemRepository itemRepository = GetItemRepository();
+            Item item = new Item()
+            {
+                Name = "Baju",
+                Code = "BA123",
+                Price = 25000
+            };
+            itemRepository.Insert(item);
+            _context.SaveChanges();
 
+            IInvoiceRepository invoiceRepository = GetInvoiceRepository();
+
+            Invoice invoice = new Invoice()
+            {
+                InvoiceDate = System.DateTime.Now,
+                InvoiceNo = 4646,
+            };
+            invoice.addInvoiceDetailFull(new InvoiceDetail()
+            {
+                InvoiceID = invoice.Id,
+                ItemId = item.Id,
+                Qty = 5,
+                Price = item.Price * 5
+            });
+            invoiceRepository.Insert(invoice);
+            _context.SaveChanges();
+
+            //itemRepository = GetItemRepository();
+            //Item targetItem = itemRepository.getSingle(item.Id).Result;
+
+            //invoiceRepository = GetInvoiceRepository();
+            //Invoice targetInvoice = invoiceRepository.getSingle(invoice.Id).Result;
+
+            IInvoiceDetailRepository invoiceDetailRepository = GetInvoiceDetailRepository();
+            //InvoiceDetail invoiceDetail = new InvoiceDetail()
+            //{
+            //    InvoiceID = targetInvoice.Id,
+            //    ItemId = targetItem.Id,
+            //    Qty = 5,
+            //    Price = targetItem.Price * 5
+            //};
+            //invoiceDetailRepository.Insert(invoiceDetail);
+            //_context.SaveChanges();
+
+            invoiceRepository = GetInvoiceRepository();
+            invoiceDetailRepository = GetInvoiceDetailRepository();
+            Invoice newInvoice = invoiceRepository.getSingle(invoice.Id).Result;
+
+            Assert.IsNotNull(newInvoice);
+            Assert.AreEqual(5, newInvoice.InvoiceDetails[0].Qty);
+            _context.SaveChanges();
+
+            //List<InvoiceDetail> listInvoiceDetail = invoiceDetailRepository.GetList().Result;
+            //Assert.AreEqual(1, listInvoiceDetail.Count());
+
+        }
         [TestMethod]
         public void UpdateInvoiceDetailWithRepository()
         {
