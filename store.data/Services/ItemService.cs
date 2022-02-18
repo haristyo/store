@@ -37,8 +37,6 @@ namespace store.data.Services
 
             //cara get list berdasarkan key
             //List<string> x = _errors[key];
-            
-
         }
         protected abstract bool ProcessData(T target);
         protected abstract T BindToObject(Dictionary<string,object> map);
@@ -181,6 +179,16 @@ namespace store.data.Services
                 return null;
             }
             await _tokoUnitOfWork.Invoice.Insert(invoice, cancellationToken);
+            foreach (InvoiceDetail newitem in invoice.InvoiceDetails)
+            {
+                await _tokoUnitOfWork.InvoiceDetail.Insert(newitem, cancellationToken);
+            }
+            //for(int i = 0; i< invoice.InvoiceDetails.Count; i++)
+            //{
+            //    await _tokoUnitOfWork.InvoiceDetail.Insert(invoice.InvoiceDetails[i], cancellationToken);
+            //}
+
+
             await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
             return invoice;
         }
@@ -197,7 +205,6 @@ namespace store.data.Services
             {
                 return null;
             }
-
             //await _tokoUnitOfWork.Item.Insert(item, cancellationToken);
             await _tokoUnitOfWork.Invoice.Update(invoice, id, cancellationToken);
             await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
@@ -214,7 +221,10 @@ namespace store.data.Services
             {
                 AddError("Code", "Tanggal Harus Diisi.");
             }
-     
+            if(invoice.InvoiceDetails.Count <= 0)
+            {
+                AddError("InvoiceDetails", "Harus memiliki invoice detail");
+            }
             return GetServiceState();
         }
         protected override Invoice BindToObject(Dictionary<string, object> map)

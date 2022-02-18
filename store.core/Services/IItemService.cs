@@ -28,12 +28,12 @@ namespace store.core.Services
         Task<Invoice> getSingle(int id, CancellationToken cancellationToken = default);
         Task<List<Invoice>> GetList(CancellationToken cancellationToken = default);
     }
-    public interface IInvoiceDetailService : IService
-    {
-        Task<InvoiceDetail> Insert(InvoiceDetail invoiceDetail, CancellationToken cancellationToken = default);
-        Task<InvoiceDetail> Update(InvoiceDetail invoiceDetail, int id, CancellationToken cancellationToken = default);
-        Task<bool> Delete(int id, CancellationToken cancellationToken = default);
-        Task<InvoiceDetail> getSingle(int id, CancellationToken cancellationToken = default);
-        Task<List<InvoiceDetail>> GetList(CancellationToken cancellationToken = default);
-    }
+    //public interface IInvoiceDetailService : IService
+    //{
+    //    Task<InvoiceDetail> Insert(InvoiceDetail invoiceDetail, CancellationToken cancellationToken = default);
+    //    Task<InvoiceDetail> Update(InvoiceDetail invoiceDetail, int id, CancellationToken cancellationToken = default);
+    //    Task<bool> Delete(int id, CancellationToken cancellationToken = default);
+    //    Task<InvoiceDetail> getSingle(int id, CancellationToken cancellationToken = default);
+    //    Task<List<InvoiceDetail>> GetList(CancellationToken cancellationToken = default);
+    //}
 }

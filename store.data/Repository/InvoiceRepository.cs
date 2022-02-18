@@ -48,14 +48,14 @@ namespace store.data.Repository
         public async Task<List<Invoice>> GetList(CancellationToken cancellationToken = default)
         {
             //throw new NotImplementedException();
-            return _dbSetInvoice.ToListAsync(cancellationToken).Result;
+            return _dbSetInvoice.Include(f=>f.InvoiceDetails).ThenInclude(e=>e.Item).ToListAsync(cancellationToken).Result;
         }
 
         public async Task<Invoice> getSingle(int id, CancellationToken cancellationToken = default)
         {
             //throw new NotImplementedException();
             //Invoice existingInvoice = 
-                return await _dbSetInvoice.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+                return await _dbSetInvoice.Include(f => f.InvoiceDetails).ThenInclude(e => e.Item).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
     }
@@ -149,14 +149,14 @@ namespace store.data.Repository
         public async Task<List<InvoiceDetail>> GetList(CancellationToken cancellationToken = default)
         {
             //throw new NotImplementedException();
-            return _dbSetInvoiceDetail.ToListAsync(cancellationToken).Result;
+            return _dbSetInvoiceDetail.Include(f=>f.Item).ToListAsync(cancellationToken).Result;
         }
 
         public async Task<InvoiceDetail> getSingle(int id, CancellationToken cancellationToken = default)
         {
             //throw new NotImplementedException();
             //Invoice existingInvoice = 
-            return await _dbSetInvoiceDetail.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            return await _dbSetInvoiceDetail.Include(f => f.Item).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
     }
 }
