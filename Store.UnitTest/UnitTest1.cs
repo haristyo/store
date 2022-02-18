@@ -1139,18 +1139,21 @@ namespace Store.UnitTest
             Assert.AreEqual(0, items.Count());
         }
 
+        public int TanggalkeInt(DateTime dateDate)
+        {
+            return Convert.ToInt32(dateDate.Year * 60 * 60 * 24 * 31 * 12 + dateDate.Month * 60 * 60 * 24 *31 + dateDate.Day * 60 * 60 *24 + dateDate.Hour * 60 * 60 + dateDate.Minute* 60 + dateDate.Second);
+        }
         [TestMethod]
         public void testInsertInvoiceUnitOfWork()
         {
             ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
             IInvoiceService invoiceService = new InvoiceService(tokoUnitOfWork);
-            DateTime dateDate = DateTime.Now;
             Invoice invoice = new Invoice()
             {
                 InvoiceDate = DateTime.Now,
                 //InvoiceNo = Convert.ToInt32(DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "").Replace("AM", "").Replace("PM", ""))
-                InvoiceNo = Convert.ToInt32(dateDate.Year * 10000 + dateDate.Month * 100 + dateDate.Day * 1)
-                
+                InvoiceNo = TanggalkeInt(DateTime.Now)
+
             };
 
             invoiceService.Insert(invoice);
@@ -1161,7 +1164,52 @@ namespace Store.UnitTest
         }
         [TestMethod]
         public void testUpdateInvoiceUnitOfWork()
-        { 
+        {
+            testInsertInvoiceUnitOfWork();
+
+            ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            IInvoiceService invoiceService = new InvoiceService(tokoUnitOfWork);
+            Invoice result = invoiceService.getSingle(1).Result;
+            Assert.IsNotNull(result);
+
+            int tanggalbaru = TanggalkeInt(DateTime.Now);
+            
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            invoiceService = new InvoiceService(tokoUnitOfWork);
+
+            result.InvoiceNo = tanggalbaru;
+            invoiceService.Update(result, result.Id);
+
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            invoiceService = new InvoiceService(tokoUnitOfWork);
+            Invoice updatedInvoice = invoiceService.getSingle(result.Id).Result;
+            Assert.IsNotNull(updatedInvoice);
+            Assert.AreEqual(tanggalbaru, updatedInvoice.InvoiceNo);
+        }
+        [TestMethod]
+        public void testDeleteInvoiceUnitOfWork()
+        {
+            testInsertInvoiceUnitOfWork();
+
+            ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            IInvoiceService invoiceService = new InvoiceService(tokoUnitOfWork);
+            Invoice result = invoiceService.getSingle(1).Result;
+            Assert.IsNotNull(result);
+
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            invoiceService = new InvoiceService(tokoUnitOfWork);
+            invoiceService.Delete(result.Id);
+
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            invoiceService = new InvoiceService(tokoUnitOfWork);
+            Invoice updatedInvoice = invoiceService.getSingle(result.Id).Result;
+            Assert.IsNull(updatedInvoice);
+
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            invoiceService = new InvoiceService(tokoUnitOfWork);
+            List<Invoice> invoice = invoiceService.GetList().Result;
+            Assert.AreEqual(0, invoice.Count());
+
         }
 
 
