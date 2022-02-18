@@ -68,7 +68,6 @@ namespace store.data.Services
         }
         public async Task<bool> Delete(int id, CancellationToken cancellationToken = default)
         {
-            //throw new NotImplementedException();
             Item existingItemId = _tokoUnitOfWork.Item.getSingle(id).Result;
             if (existingItemId.Id != id)
             {
@@ -81,7 +80,6 @@ namespace store.data.Services
 
         public async Task<List<Item>> GetList(CancellationToken cancellationToken = default)
         {
-            //throw new NotImplementedException();
             return await _tokoUnitOfWork.Item.GetList(cancellationToken);   
         }
 
@@ -104,7 +102,6 @@ namespace store.data.Services
 
         public async Task<Item> Update(Item item, int id, CancellationToken cancellationToken = default)
         {
-            //throw new NotImplementedException();
             if (Validate(item) == false )
             {
                 return null;
@@ -115,7 +112,6 @@ namespace store.data.Services
                 return null;
             }
 
-            //await _tokoUnitOfWork.Item.Insert(item, cancellationToken);
             await _tokoUnitOfWork.Item.Update(item, id, cancellationToken);
             await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
             return item;
@@ -142,13 +138,11 @@ namespace store.data.Services
             item.Id = Convert.ToInt32(map["id"]);
             return item;
         }
-
         protected override bool ProcessData(Item item)
         {
             return true;
         }
     }
-
 
     public class InvoiceService : Service<Invoice>, IInvoiceService
     {
@@ -159,25 +153,8 @@ namespace store.data.Services
         }
         public async Task<bool> Delete(int id, CancellationToken cancellationToken = default)
         {
-            //throw new NotImplementedException();
-            //Invoice existingInvoiceId = _tokoUnitOfWork.Invoice.getSingle(id).Result;
-            //if (existingInvoiceId.Id != id)
-            //{
-            //    return false;
-            //}
-            //await _tokoUnitOfWork.Invoice.Delete(id, cancellationToken);
-            //await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
-            //return true;
-
-
-
-
             Invoice invoiceExist = await _tokoUnitOfWork.Invoice.getSingle(id);
             List<InvoiceDetail> transaksiExist = invoiceExist.InvoiceDetails.ToList();
-            //List<InvoiceDetail> transaksi= invoiceExist.InvoiceDetails;
-            //IQueryable<Invoice> queryableInvoiceExist = invoiceExist.
-            //List<InvoiceDetail> x = await _tokoUnitOfWork.InvoiceDetail;
-            //List<InvoiceDetail> transaksiExist = invoiceExist.InvoiceDetails[0];
 
             if (ValidateUpdate(invoiceExist, id) == false)
             {
@@ -198,7 +175,6 @@ namespace store.data.Services
 
         public async Task<List<Invoice>> GetList(CancellationToken cancellationToken = default)
         {
-            //throw new NotImplementedException();
             List<Invoice> existingInvoiceList = await _tokoUnitOfWork.Invoice.GetList(cancellationToken);
             return existingInvoiceList ??= null;
         }
@@ -216,15 +192,6 @@ namespace store.data.Services
                 return null;
             }
             await _tokoUnitOfWork.Invoice.Insert(invoice, cancellationToken);
-            //foreach (InvoiceDetail newitem in invoice.InvoiceDetails)
-            //{
-            //    await _tokoUnitOfWork.InvoiceDetail.Insert(newitem, cancellationToken);
-            //}
-            //for(int i = 0; i< invoice.InvoiceDetails.Count; i++)
-            //{
-            //    await _tokoUnitOfWork.InvoiceDetail.Insert(invoice.InvoiceDetails[i], cancellationToken);
-            //}
-
 
             await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
             return invoice;
@@ -232,20 +199,11 @@ namespace store.data.Services
 
         public async Task<Invoice> Update(Invoice invoice, int id, CancellationToken cancellationToken = default)
         {
-
-
-            
             Invoice invoiceExist = await _tokoUnitOfWork.Invoice.getSingle(id);
             List<InvoiceDetail> transaksiExist = invoiceExist.InvoiceDetails.ToList();
-            //List<InvoiceDetail> transaksi= invoiceExist.InvoiceDetails;
-            //IQueryable<Invoice> queryableInvoiceExist = invoiceExist.
-            //List<InvoiceDetail> x = await _tokoUnitOfWork.InvoiceDetail;
-            //List<InvoiceDetail> transaksiExist = invoiceExist.InvoiceDetails[0];
-
 
             foreach (var newItem in invoice.InvoiceDetails)
             {
-                //newItem.InvoiceID = 1;
                 if (transaksiExist.Any(f => f.Id == newItem.Id))
                 {
                     InvoiceDetail transaksi = transaksiExist.First(f => f.Id == newItem.Id);
@@ -316,8 +274,6 @@ namespace store.data.Services
             {
                 AddError("Id", "Id harus diisi");
             }
-
-
             return GetServiceState();
         }
 
