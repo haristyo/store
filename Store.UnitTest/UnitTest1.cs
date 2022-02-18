@@ -1150,15 +1150,21 @@ namespace Store.UnitTest
                 InvoiceDate = DateTime.Now,
                 //InvoiceNo = Convert.ToInt32(DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "").Replace("AM", "").Replace("PM", ""))
                 InvoiceNo = Convert.ToInt32(dateDate.Year * 10000 + dateDate.Month * 100 + dateDate.Day * 1)
+                
             };
 
             invoiceService.Insert(invoice);
             tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
-
             invoiceService = new InvoiceService(tokoUnitOfWork);
             Invoice result = invoiceService.getSingle(1).Result;
             Assert.IsNotNull(result);
         }
+        [TestMethod]
+        public void testUpdateInvoiceUnitOfWork()
+        { 
+        }
+
+
 
 
 

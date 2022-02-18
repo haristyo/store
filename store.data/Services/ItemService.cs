@@ -206,7 +206,7 @@ namespace store.data.Services
 
         public bool Validate(Invoice invoice)
         {
-            if (invoice.InvoiceNo > 0)
+            if (invoice.InvoiceNo <= 0)
             {
                 AddError("InvoiceNo", "Nomor Invoice Harus Diisi.");
             }
