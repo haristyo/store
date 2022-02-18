@@ -504,6 +504,7 @@ namespace Store.UnitTest
                 if (transaksiExist.Any(f => f.Id == newItem.Id))
                 {
                     InvoiceDetail transaksi = transaksiExist.First(f => f.Id == newItem.Id);
+
                     _Context.Entry<InvoiceDetail>(transaksi).CurrentValues.SetValues(newItem);
                     transaksiExist.Remove(transaksi);
                 }
@@ -511,16 +512,6 @@ namespace Store.UnitTest
                 {
                     var addedTransaction = newItem;
                     _Context.InvoiceDetails.Add(newItem);
-
-                    //invoice.addInvoiceDetailFull(new InvoiceDetail()
-                    //{
-
-                    //    ItemId = newItem.Id,
-                    //    InvoiceID = newItem.Invoice.Id,
-                    //    Qty = newItem.Qty,
-                    //    Price = newItem.Price * newItem.Qty
-                    //});
-
                 };
             }
             if (transaksiExist.Count() > 0)

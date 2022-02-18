@@ -3,6 +3,7 @@ using store.core.Entities;
 using store.core.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,6 +38,16 @@ namespace store.data.Services
 
             //cara get list berdasarkan key
             //List<string> x = _errors[key];
+        }
+        protected void AddError(string error)
+        {
+            if (_errors.ContainsKey("_ERROR_") == false)
+            {
+                //jika tidak ada dictionary, buat dulu
+                _errors.Add("_ERROR_", new List<string>());
+            }
+            //jika dictionary sudah ada
+            _errors["_ERROR_"].Add(error);
         }
         protected abstract bool ProcessData(T target);
         protected abstract T BindToObject(Dictionary<string,object> map);
@@ -149,10 +160,36 @@ namespace store.data.Services
         public async Task<bool> Delete(int id, CancellationToken cancellationToken = default)
         {
             //throw new NotImplementedException();
-            Invoice existingInvoiceId = _tokoUnitOfWork.Invoice.getSingle(id).Result;
-            if (existingInvoiceId.Id != id)
+            //Invoice existingInvoiceId = _tokoUnitOfWork.Invoice.getSingle(id).Result;
+            //if (existingInvoiceId.Id != id)
+            //{
+            //    return false;
+            //}
+            //await _tokoUnitOfWork.Invoice.Delete(id, cancellationToken);
+            //await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
+            //return true;
+
+
+
+
+            Invoice invoiceExist = await _tokoUnitOfWork.Invoice.getSingle(id);
+            List<InvoiceDetail> transaksiExist = invoiceExist.InvoiceDetails.ToList();
+            //List<InvoiceDetail> transaksi= invoiceExist.InvoiceDetails;
+            //IQueryable<Invoice> queryableInvoiceExist = invoiceExist.
+            //List<InvoiceDetail> x = await _tokoUnitOfWork.InvoiceDetail;
+            //List<InvoiceDetail> transaksiExist = invoiceExist.InvoiceDetails[0];
+
+            if (ValidateUpdate(invoiceExist, id) == false)
             {
                 return false;
+            }
+
+            if (transaksiExist.Count() > 0)
+            {
+                foreach (var deletedTransaksi in transaksiExist)
+                {
+                    await _tokoUnitOfWork.InvoiceDetail.Delete(deletedTransaksi.Id, cancellationToken);
+                }
             }
             await _tokoUnitOfWork.Invoice.Delete(id, cancellationToken);
             await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
@@ -174,15 +211,15 @@ namespace store.data.Services
 
         public async Task<Invoice> Insert(Invoice invoice, CancellationToken cancellationToken = default)
         {
-            if (Validate(invoice) == false)
+            if (ValidateInsert(invoice) == false)
             {
                 return null;
             }
             await _tokoUnitOfWork.Invoice.Insert(invoice, cancellationToken);
-            foreach (InvoiceDetail newitem in invoice.InvoiceDetails)
-            {
-                await _tokoUnitOfWork.InvoiceDetail.Insert(newitem, cancellationToken);
-            }
+            //foreach (InvoiceDetail newitem in invoice.InvoiceDetails)
+            //{
+            //    await _tokoUnitOfWork.InvoiceDetail.Insert(newitem, cancellationToken);
+            //}
             //for(int i = 0; i< invoice.InvoiceDetails.Count; i++)
             //{
             //    await _tokoUnitOfWork.InvoiceDetail.Insert(invoice.InvoiceDetails[i], cancellationToken);
@@ -195,24 +232,49 @@ namespace store.data.Services
 
         public async Task<Invoice> Update(Invoice invoice, int id, CancellationToken cancellationToken = default)
         {
-            //throw new NotImplementedException();
-            if (Validate(invoice) == false)
+
+
+            
+            Invoice invoiceExist = await _tokoUnitOfWork.Invoice.getSingle(id);
+            List<InvoiceDetail> transaksiExist = invoiceExist.InvoiceDetails.ToList();
+            //List<InvoiceDetail> transaksi= invoiceExist.InvoiceDetails;
+            //IQueryable<Invoice> queryableInvoiceExist = invoiceExist.
+            //List<InvoiceDetail> x = await _tokoUnitOfWork.InvoiceDetail;
+            //List<InvoiceDetail> transaksiExist = invoiceExist.InvoiceDetails[0];
+
+
+            foreach (var newItem in invoice.InvoiceDetails)
             {
-                return null;
+                //newItem.InvoiceID = 1;
+                if (transaksiExist.Any(f => f.Id == newItem.Id))
+                {
+                    InvoiceDetail transaksi = transaksiExist.First(f => f.Id == newItem.Id);
+                    await _tokoUnitOfWork.InvoiceDetail.Update(newItem, newItem.Id);
+                    transaksiExist.Remove(transaksi);
+                }
+                else
+                {
+                    await _tokoUnitOfWork.InvoiceDetail.Insert(newItem);
+                };
             }
-            int existingInvoice = _tokoUnitOfWork.Invoice.getSingle(id).Result.Id;
-            if (existingInvoice != id)
+            if (transaksiExist.Count() > 0)
             {
-                return null;
+                foreach (var deletedTransaksi in transaksiExist)
+                {
+                    await _tokoUnitOfWork.InvoiceDetail.Delete(deletedTransaksi.Id);
+                }
             }
-            //await _tokoUnitOfWork.Item.Insert(item, cancellationToken);
             await _tokoUnitOfWork.Invoice.Update(invoice, id, cancellationToken);
             await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
             return invoice;
         }
 
-        public bool Validate(Invoice invoice)
+        public bool ValidateBase(Invoice invoice)
         {
+            if(invoice == null)
+            {
+                AddError("Object Invoice Tidak boleh kosong");
+            }
             if (invoice.InvoiceNo <= 0)
             {
                 AddError("InvoiceNo", "Nomor Invoice Harus Diisi.");
@@ -227,6 +289,38 @@ namespace store.data.Services
             }
             return GetServiceState();
         }
+        public bool ValidateInsert(Invoice invoice)
+        {
+            if (ValidateBase(invoice)==false)
+            {
+                return GetServiceState();
+            }
+            Invoice existInvoice = _tokoUnitOfWork.Invoice.getSingle(invoice.Id).Result;
+            if (existInvoice!=null)
+            {
+                AddError("InvoiceNo", "Invoice No Tidak Boleh sama");
+            }
+            return GetServiceState();
+        }
+        public bool ValidateUpdate(Invoice invoice,int id)
+        {
+            if (ValidateBase(invoice) == false)
+            {
+                return GetServiceState();
+            }
+            if(invoice.Id != id)
+            {
+                AddError("Id", "Id tidak boleh diganti");
+            }
+            if(id==0 || invoice.Id == 0)
+            {
+                AddError("Id", "Id harus diisi");
+            }
+
+
+            return GetServiceState();
+        }
+
         protected override Invoice BindToObject(Dictionary<string, object> map)
         {
             Invoice invoice = new Invoice();
