@@ -99,7 +99,7 @@ namespace store.data.Repository
         public async Task<List<Item>> GetList(CancellationToken cancellationToken = default)
         {
             //throw new NotImplementedException();
-            return _dbSetItem.ToListAsync(cancellationToken).Result;
+            return await _dbSetItem.ToListAsync(cancellationToken);
         }
 
         public async Task<Item> getSingle(int id, CancellationToken cancellationToken = default)

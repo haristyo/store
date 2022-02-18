@@ -1041,18 +1041,18 @@ namespace Store.UnitTest
     }
 
     [TestClass]
-    public class UnitTest3 : UTBase
+    public class UnitTestUnitOfWork : UTBase
     {
 
-        
-        public UnitTest3()
+
+        public UnitTestUnitOfWork()
         {
 
             CleanData();
         }
 
         [TestMethod]
-        public void testUnitOfWork()
+        public void testInsertItemUnitOfWork()
         {
             ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
             IItemService itemService = new ItemService(tokoUnitOfWork);
@@ -1063,14 +1063,106 @@ namespace Store.UnitTest
                 Code = "B123"
             };
             itemService.Insert(beras);
-            AppsContext _Context = GetStoreDBContext();
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            itemService = new ItemService(tokoUnitOfWork);
+            Item result = itemService.getSingle(1).Result;
+
+
 
             //newContext
-            var dbItem = _Context.Items;
-            Item result = dbItem.FirstOrDefault(f => f.Name == "Beras");
+            //AppsContext _Context = GetStoreDBContext();
+            //Item result = _Context.Items.FirstOrDefault(f => f.Name == "Beras");
             Assert.IsNotNull(result);
         }
-        
+        [TestMethod]
+        public void testUpdateItemUnitOfWork()
+        {
+            ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            IItemService itemService = new ItemService(tokoUnitOfWork);
+            Item beras = new Item()
+            {
+                Name = "Beras",
+                Price = 10000,
+                Code = "B123"
+            };
+            itemService.Insert(beras);
+
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            itemService = new ItemService(tokoUnitOfWork);
+            Item result = itemService.getSingle(1).Result;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Beras", result.Name);
+
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            itemService = new ItemService(tokoUnitOfWork);
+            result.Price = 12000;
+            itemService.Update(result, result.Id);
+
+
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            itemService = new ItemService(tokoUnitOfWork);
+            Item updatedItem = itemService.getSingle(1).Result;
+            Assert.IsNotNull(updatedItem);
+            Assert.AreEqual(12000, updatedItem.Price);
+        }
+        [TestMethod]
+        public void testDeleteItemUnitOfWork()
+        {
+            ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            IItemService itemService = new ItemService(tokoUnitOfWork);
+            Item beras = new Item()
+            {
+                Name = "Beras",
+                Price = 10000,
+                Code = "B123"
+            };
+            itemService.Insert(beras);
+
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            itemService = new ItemService(tokoUnitOfWork);
+            Item result = itemService.getSingle(1).Result;
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Beras", result.Name);
+
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            itemService = new ItemService(tokoUnitOfWork);
+            itemService.Delete(result.Id);
+
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            itemService = new ItemService(tokoUnitOfWork);
+            Item updatedItem = itemService.getSingle(1).Result;
+            Assert.IsNull(updatedItem);
+
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            itemService = new ItemService(tokoUnitOfWork);
+            List<Item> items = itemService.GetList().Result;
+            Assert.AreEqual(0, items.Count());
+        }
+
+        [TestMethod]
+        public void testInsertInvoiceUnitOfWork()
+        {
+            ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            IInvoiceService invoiceService = new InvoiceService(tokoUnitOfWork);
+            DateTime dateDate = DateTime.Now;
+            Invoice invoice = new Invoice()
+            {
+                InvoiceDate = DateTime.Now,
+                //InvoiceNo = Convert.ToInt32(DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "").Replace("AM", "").Replace("PM", ""))
+                InvoiceNo = Convert.ToInt32(dateDate.Year * 10000 + dateDate.Month * 100 + dateDate.Day * 1)
+            };
+
+            invoiceService.Insert(invoice);
+            tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+
+            invoiceService = new InvoiceService(tokoUnitOfWork);
+            Invoice result = invoiceService.getSingle(1).Result;
+            Assert.IsNotNull(result);
+        }
+
+
+
+
 
     }
 }

@@ -57,9 +57,29 @@ namespace store.data.Services
         {
             _tokoUnitOfWork = tokoUnitOfWork;
         }
-        public Task Delete(int id, CancellationToken cancellationToken = default)
+        public async Task<bool> Delete(int id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            Item existingItemId = _tokoUnitOfWork.Item.getSingle(id).Result;
+            if (existingItemId.Id != id)
+            {
+                return false;
+            }
+            await _tokoUnitOfWork.Item.Delete(id, cancellationToken);
+            await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
+            return true;
+        }
+
+        public async Task<List<Item>> GetList(CancellationToken cancellationToken = default)
+        {
+            //throw new NotImplementedException();
+            return await _tokoUnitOfWork.Item.GetList(cancellationToken);   
+        }
+
+        public async Task<Item> getSingle(int id, CancellationToken cancellationToken = default)
+        {
+            Item existingItem = await _tokoUnitOfWork.Item.getSingle(id,cancellationToken);
+            return existingItem ??= null;
         }
 
         public async Task<Item> Insert(Item item, CancellationToken cancellationToken = default)
@@ -73,9 +93,23 @@ namespace store.data.Services
             return item;
         }
 
-        public Task<Item> Update(Invoice model, int id, CancellationToken cancellationToken = default)
+        public async Task<Item> Update(Item item, int id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            if (Validate(item) == false )
+            {
+                return null;
+            }
+            int existingItemId = _tokoUnitOfWork.Item.getSingle(id).Result.Id;
+            if(existingItemId != id)
+            {
+                return null;
+            }
+
+            //await _tokoUnitOfWork.Item.Insert(item, cancellationToken);
+            await _tokoUnitOfWork.Item.Update(item, id, cancellationToken);
+            await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
+            return item;
         }
 
         public bool Validate(Item item)
@@ -105,4 +139,97 @@ namespace store.data.Services
             return true;
         }
     }
+
+
+    public class InvoiceService : Service<Invoice>, IInvoiceService
+    {
+        protected ITokoUnitOfWork _tokoUnitOfWork;
+        public InvoiceService(ITokoUnitOfWork tokoUnitOfWork)
+        {
+            _tokoUnitOfWork = tokoUnitOfWork;
+        }
+        public async Task<bool> Delete(int id, CancellationToken cancellationToken = default)
+        {
+            //throw new NotImplementedException();
+            Invoice existingInvoiceId = _tokoUnitOfWork.Invoice.getSingle(id).Result;
+            if (existingInvoiceId.Id != id)
+            {
+                return false;
+            }
+            await _tokoUnitOfWork.Invoice.Delete(id, cancellationToken);
+            await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
+            return true;
+        }
+
+        public async Task<List<Invoice>> GetList(CancellationToken cancellationToken = default)
+        {
+            //throw new NotImplementedException();
+            List<Invoice> existingInvoiceList = await _tokoUnitOfWork.Invoice.GetList(cancellationToken);
+            return existingInvoiceList ??= null;
+        }
+
+        public async Task<Invoice> getSingle(int id, CancellationToken cancellationToken = default)
+        {
+            Invoice existingInvoice = await _tokoUnitOfWork.Invoice.getSingle(id, cancellationToken);
+            return existingInvoice ??= null;
+        }
+
+        public async Task<Invoice> Insert(Invoice invoice, CancellationToken cancellationToken = default)
+        {
+            if (Validate(invoice) == false)
+            {
+                return null;
+            }
+            await _tokoUnitOfWork.Invoice.Insert(invoice, cancellationToken);
+            await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
+            return invoice;
+        }
+
+        public async Task<Invoice> Update(Invoice invoice, int id, CancellationToken cancellationToken = default)
+        {
+            //throw new NotImplementedException();
+            if (Validate(invoice) == false)
+            {
+                return null;
+            }
+            int existingInvoice = _tokoUnitOfWork.Invoice.getSingle(id).Result.Id;
+            if (existingInvoice != id)
+            {
+                return null;
+            }
+
+            //await _tokoUnitOfWork.Item.Insert(item, cancellationToken);
+            await _tokoUnitOfWork.Invoice.Update(invoice, id, cancellationToken);
+            await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
+            return invoice;
+        }
+
+        public bool Validate(Invoice invoice)
+        {
+            if (invoice.InvoiceNo > 0)
+            {
+                AddError("InvoiceNo", "Nomor Invoice Harus Diisi.");
+            }
+            if (string.IsNullOrEmpty( Convert.ToString (invoice.InvoiceDate)))
+            {
+                AddError("Code", "Tanggal Harus Diisi.");
+            }
+     
+            return GetServiceState();
+        }
+        protected override Invoice BindToObject(Dictionary<string, object> map)
+        {
+            Invoice invoice = new Invoice();
+            invoice.Id = Convert.ToInt32(map["id"]);
+            return invoice;
+        }
+
+        protected override bool ProcessData(Invoice invoice)
+        {
+            return true;
+        }
+    }
+
+
+
 }
