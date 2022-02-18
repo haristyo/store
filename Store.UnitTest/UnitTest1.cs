@@ -11,10 +11,13 @@ using System.Collections.Generic;
 using store.core.Repository;
 using store.data.Repository;
 using System.Threading;
+using store.core.Services;
+using store.data.Services;
+using store.core;
 
 namespace Store.UnitTest
 {
-   public abstract class UTBase
+    public abstract class UTBase
     {
         protected AppsContext _context;
         public void CleanData()
@@ -49,7 +52,7 @@ namespace Store.UnitTest
     [TestClass]
     public class UnitTest1 : UTBase
     {
-    //private readonly AppsContext _context;
+        //private readonly AppsContext _context;
         //public UnitTest1()
         //{
         //    _context = context;
@@ -97,7 +100,7 @@ namespace Store.UnitTest
         {
             initDataItem();
             AppsContext _Context = GetStoreDBContext();
- 
+
             //newContext
             Item result = _Context.Items.Where(f => f.Name == "Beras").FirstOrDefault();
             Assert.IsNotNull(result);
@@ -146,7 +149,7 @@ namespace Store.UnitTest
 
         }
 
-        
+
 
 
 
@@ -219,7 +222,7 @@ namespace Store.UnitTest
                 // InvoiceDetails = null
             };
             Invoice targetUpdatedInvoice = _Context.Invoices.Where(f => f.InvoiceNo == 2703).FirstOrDefault();
-            _Context.Entry<Invoice>(targetUpdatedInvoice).CurrentValues.SetValues(invoice); 
+            _Context.Entry<Invoice>(targetUpdatedInvoice).CurrentValues.SetValues(invoice);
             _Context.SaveChanges();
 
             _Context = GetStoreDBContext();
@@ -330,7 +333,7 @@ namespace Store.UnitTest
             Invoice result = _Context.Invoices.Include(inv => inv.InvoiceDetails).ThenInclude(inv => inv.Item).FirstOrDefault();
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(2,invoice.InvoiceDetails.Count());
+            Assert.AreEqual(2, invoice.InvoiceDetails.Count());
 
         }
 
@@ -354,7 +357,7 @@ namespace Store.UnitTest
 
             _Context = GetStoreDBContext();
             Invoice result = _Context.Invoices.Include(inv => inv.InvoiceDetails).ThenInclude(inv => inv.Item).FirstOrDefault();
-            InvoiceDetail targetUpdate =  result.InvoiceDetails.FirstOrDefault(f => f.Qty == 1);
+            InvoiceDetail targetUpdate = result.InvoiceDetails.FirstOrDefault(f => f.Qty == 1);
             targetUpdate.Qty = 25;
             _Context.SaveChanges();
 
@@ -362,7 +365,7 @@ namespace Store.UnitTest
             //result
             _Context = GetStoreDBContext();
             Invoice updatedInvoiceDetail = _Context.Invoices.Include(inv => inv.InvoiceDetails).ThenInclude(inv => inv.Item).FirstOrDefault();
-            
+
             Assert.AreEqual(1, updatedInvoiceDetail.InvoiceDetails.Where(f => f.Qty == 25).Count());
             //Assert.AreNotEqual()
             Assert.AreEqual(0, updatedInvoiceDetail.InvoiceDetails.Where(f => f.Qty == 1).Count());
@@ -374,7 +377,7 @@ namespace Store.UnitTest
         [TestMethod]
         public void TestRemoveInvoiceDetail()
         {
-            
+
             AppsContext _Context = GetStoreDBContext();
             initDataItem();
             Item item = _Context.Items.FirstOrDefault(f => f.Name == "Beras");
@@ -414,7 +417,7 @@ namespace Store.UnitTest
             invoice.addInvoiceDetailFull(new InvoiceDetail()
             {
                 ItemId = item.Id,
-             
+
                 InvoiceID = invoice.Id,
                 Qty = 5,
                 Price = item.Price * 5,
@@ -434,7 +437,7 @@ namespace Store.UnitTest
 
 
             //_Context = GetStoreDBContext();
-        //Buat seakan2 new Request
+            //Buat seakan2 new Request
             Invoice newRequest = new Invoice()
             {
                 Id = 1,
@@ -495,10 +498,10 @@ namespace Store.UnitTest
             List<InvoiceDetail> transaksiExist = _Context.InvoiceDetails.Where(f => f.InvoiceID == 1).ToList();
             //transaksi
             //Console.WriteLine(newRequest.InvoiceDetails);
-            foreach(var newItem in newRequest.InvoiceDetails)
+            foreach (var newItem in newRequest.InvoiceDetails)
             {
                 //newItem.InvoiceID = 1;
-                if (transaksiExist.Any(f=>f.Id == newItem.Id))
+                if (transaksiExist.Any(f => f.Id == newItem.Id))
                 {
                     InvoiceDetail transaksi = transaksiExist.First(f => f.Id == newItem.Id);
                     _Context.Entry<InvoiceDetail>(transaksi).CurrentValues.SetValues(newItem);
@@ -506,23 +509,23 @@ namespace Store.UnitTest
                 }
                 else
                 {
-                    var addedTransaction =  newItem;
+                    var addedTransaction = newItem;
                     _Context.InvoiceDetails.Add(newItem);
 
                     //invoice.addInvoiceDetailFull(new InvoiceDetail()
                     //{
-                        
+
                     //    ItemId = newItem.Id,
                     //    InvoiceID = newItem.Invoice.Id,
                     //    Qty = newItem.Qty,
                     //    Price = newItem.Price * newItem.Qty
                     //});
-                    
+
                 };
             }
-            if(transaksiExist.Count() > 0)
+            if (transaksiExist.Count() > 0)
             {
-                foreach(var deletedTransaksi in transaksiExist)
+                foreach (var deletedTransaksi in transaksiExist)
                 {
                     _Context.InvoiceDetails.Remove(deletedTransaksi);
                 }
@@ -537,7 +540,7 @@ namespace Store.UnitTest
             Assert.IsNotNull(invoice.InvoiceDetails.FirstOrDefault(f => f.Item.Name == "Terigu"));
             Assert.IsNotNull(invoice.InvoiceDetails.FirstOrDefault(f => f.Item.Name == "Gula"));
             //Assert.IsNotNull(invoice.InvoiceDetails.FirstOrDefault(f => f.Item.Name == "Beras"));
-            Assert.IsNull(invoice.InvoiceDetails.FirstOrDefault(f => f.Item.Name == "Beras")); 
+            Assert.IsNull(invoice.InvoiceDetails.FirstOrDefault(f => f.Item.Name == "Beras"));
 
         }
 
@@ -576,9 +579,9 @@ namespace Store.UnitTest
             _Context.SaveChanges();
 
             _Context = GetStoreDBContext();
-            Invoice invoiceDelete = _Context.Invoices.Include(f=>f.InvoiceDetails).ThenInclude(e=>e.Item).FirstOrDefault(f => f.Id == 1);
+            Invoice invoiceDelete = _Context.Invoices.Include(f => f.InvoiceDetails).ThenInclude(e => e.Item).FirstOrDefault(f => f.Id == 1);
             //invoiceDelete.InvoiceDetails
-            foreach(var itemDeleted in invoiceDelete.InvoiceDetails)
+            foreach (var itemDeleted in invoiceDelete.InvoiceDetails)
             {
                 _Context.InvoiceDetails.Remove(itemDeleted);
                 //invoiceDelete.removeInvoiceDetail(itemDeleted);
@@ -588,7 +591,7 @@ namespace Store.UnitTest
             //_Context.SaveChanges();
 
             _Context = GetStoreDBContext();
-            Invoice hasilHapus = _Context.Invoices.FirstOrDefault(f => f.Id==1);
+            Invoice hasilHapus = _Context.Invoices.FirstOrDefault(f => f.Id == 1);
             Assert.AreEqual(0, hasilHapus.InvoiceDetails.Count());
             //List _Context
             //_Context.Invoices.Remove(invoiceDelete);
@@ -596,7 +599,7 @@ namespace Store.UnitTest
             Invoice targetDelete = _Context.Invoices.FirstOrDefault(f => f.Id == 1);
             _Context.Invoices.Remove(targetDelete);
             _Context.SaveChanges();
-            Assert.IsNull(_Context.Invoices.FirstOrDefault(f=>f.Id==1));
+            Assert.IsNull(_Context.Invoices.FirstOrDefault(f => f.Id == 1));
 
         }
 
@@ -619,7 +622,7 @@ namespace Store.UnitTest
         public void InsertInvoiceWithRepository()
         {
             IInvoiceRepository invoiceRepository = GetInvoiceRepository();
-            
+
             Invoice invoice = new Invoice()
             {
                 InvoiceDate = System.DateTime.Now,
@@ -706,7 +709,7 @@ namespace Store.UnitTest
         public void InsertItemWithRepository()
         {
             IItemRepository itemRepository = GetItemRepository();
-            Item item= new Item()
+            Item item = new Item()
             {
                 Name = "Baju",
                 Code = "BA123",
@@ -898,11 +901,11 @@ namespace Store.UnitTest
 
             invoiceRepository = GetInvoiceRepository();
             invoiceDetailRepository = GetInvoiceDetailRepository();
-            Invoice newInvoice = invoiceRepository.getSingle(invoice.Id).Result;
+            var newInvoice = invoiceRepository.getSingle(invoice.Id).Result;
 
             Assert.IsNotNull(newInvoice);
-            Assert.AreEqual(5, newInvoice.InvoiceDetails[0].Qty);
-            _context.SaveChanges();
+            Assert.AreEqual(4646, newInvoice.InvoiceNo);
+            //_context.SaveChanges();
 
             //List<InvoiceDetail> listInvoiceDetail = invoiceDetailRepository.GetList().Result;
             //Assert.AreEqual(1, listInvoiceDetail.Count());
@@ -1037,5 +1040,38 @@ namespace Store.UnitTest
         }
     }
 
+    [TestClass]
+    public class UnitTest3 : UTBase
+    {
+
+        
+        public UnitTest3()
+        {
+
+            CleanData();
+        }
+
+        [TestMethod]
+        public void testUnitOfWork()
+        {
+            ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            IItemService itemService = new ItemService(tokoUnitOfWork);
+            Item beras = new Item()
+            {
+                Name = "Beras",
+                Price = 10000,
+                Code = "B123"
+            };
+            itemService.Insert(beras);
+            AppsContext _Context = GetStoreDBContext();
+
+            //newContext
+            var dbItem = _Context.Items;
+            Item result = dbItem.FirstOrDefault(f => f.Name == "Beras");
+            Assert.IsNotNull(result);
+        }
+        
+
+    }
 }
 

@@ -4,6 +4,8 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using store.core.Entities;
 using store.core.Configuration;
+using System.Threading.Tasks;
+using store.core;
 
 namespace store.data
 {
@@ -21,6 +23,7 @@ namespace store.data
             modelBuilder.ApplyConfiguration<Invoice>(new InvoiceConfiguration());
             modelBuilder.ApplyConfiguration<InvoiceDetail>(new InvoiceDetailConfiguration());
         }
+
 
     }
 }

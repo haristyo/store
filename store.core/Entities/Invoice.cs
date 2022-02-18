@@ -11,7 +11,7 @@ namespace store.core.Entities
         public int InvoiceNo { get; set; }
 
         private List<InvoiceDetail> _InvoiceDetails = new List<InvoiceDetail>();
-        public IReadOnlyList<InvoiceDetail> InvoiceDetails => _InvoiceDetails.AsReadOnly();
+        public virtual IReadOnlyList<InvoiceDetail> InvoiceDetails => _InvoiceDetails.AsReadOnly();
         //public List<City> Cities { get; set; }
         public void addInvoiceDetail(int qty, Item item)
         {
