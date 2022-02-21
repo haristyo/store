@@ -14,6 +14,7 @@ using System.Threading;
 using store.core.Services;
 using store.data.Services;
 using store.core;
+using store.core.Spesifications;
 
 namespace Store.UnitTest
 {
@@ -634,7 +635,8 @@ namespace Store.UnitTest
             invoiceRepository = GetInvoiceRepository();
             Invoice newInvoice = invoiceRepository.getSingle(invoice.Id).Result;
             Assert.IsNotNull(newInvoice);
-            List<Invoice> listInvoice = invoiceRepository.GetList().Result;
+            InvoiceSpesification spesification = new InvoiceSpesification();
+            List<Invoice> listInvoice = invoiceRepository.GetList(spesification.Build()).Result;
             Assert.AreEqual(2, listInvoice.Count());
         }
 
@@ -667,7 +669,8 @@ namespace Store.UnitTest
             _context.SaveChanges();
 
             invoiceRepository = GetInvoiceRepository();
-            List<Invoice> listInvoice = invoiceRepository.GetList().Result;
+            InvoiceSpesification spesification = new InvoiceSpesification();
+            List<Invoice> listInvoice = invoiceRepository.GetList(spesification.Build()).Result;
             Assert.AreEqual(1234, listInvoice[0].InvoiceNo);
         }
         [TestMethod]
@@ -692,7 +695,8 @@ namespace Store.UnitTest
             _context.SaveChanges();
 
             invoiceRepository = GetInvoiceRepository();
-            List<Invoice> listInvoice = invoiceRepository.GetList().Result;
+            InvoiceSpesification spesification = new InvoiceSpesification();
+            List<Invoice> listInvoice = invoiceRepository.GetList(spesification.Build()).Result;
             Assert.AreEqual(0, listInvoice.Count());
         }
 
@@ -722,7 +726,8 @@ namespace Store.UnitTest
             itemRepository = GetItemRepository();
             Item newItem = itemRepository.getSingle(item.Id).Result;
             Assert.IsNotNull(newItem);
-            List<Item> listItem = itemRepository.GetList().Result;
+            ItemSpesification spesification = new ItemSpesification();
+            List<Item> listItem = itemRepository.GetList(spesification.Build()).Result;
             Assert.AreEqual(2, listItem.Count());
 
         }
@@ -757,7 +762,8 @@ namespace Store.UnitTest
             _context.SaveChanges();
 
             itemRepository = GetItemRepository();
-            List<Item> listItem = itemRepository.GetList().Result;
+            ItemSpesification spesification = new ItemSpesification();
+            List<Item> listItem = itemRepository.GetList(spesification.Build()).Result;
             Assert.AreEqual("BA130", listItem[0].Code);
         }
 
@@ -783,7 +789,8 @@ namespace Store.UnitTest
             _context.SaveChanges();
 
             itemRepository = GetItemRepository();
-            List<Item> listItem = itemRepository.GetList().Result;
+            ItemSpesification spesification = new ItemSpesification();
+            List<Item> listItem = itemRepository.GetList(spesification.Build()).Result;
             Assert.AreEqual(0, listItem.Count());
         }
 
@@ -839,7 +846,8 @@ namespace Store.UnitTest
             InvoiceDetail newInvoiceDetail = invoiceDetailRepository.getSingle(invoiceDetail.Id).Result;
             Assert.IsNotNull(newInvoiceDetail);
 
-            List<InvoiceDetail> listInvoiceDetail = invoiceDetailRepository.GetList().Result;
+            InvoiceDetailSpesification spesification = new InvoiceDetailSpesification();
+            List<InvoiceDetail> listInvoiceDetail = invoiceDetailRepository.GetList(spesification.Build()).Result;
             Assert.AreEqual(1, listInvoiceDetail.Count());
 
         }
@@ -946,8 +954,8 @@ namespace Store.UnitTest
             invoiceDetailRepository = GetInvoiceDetailRepository();
             InvoiceDetail newInvoiceDetail = invoiceDetailRepository.getSingle(invoiceDetail.Id).Result;
             Assert.IsNotNull(newInvoiceDetail);
-
-            List<InvoiceDetail> listInvoiceDetail = invoiceDetailRepository.GetList().Result;
+            InvoiceDetailSpesification spesification = new InvoiceDetailSpesification();
+            List<InvoiceDetail> listInvoiceDetail = invoiceDetailRepository.GetList(spesification.Build()).Result;
             Assert.AreEqual(1, listInvoiceDetail.Count());
 
 
@@ -1012,8 +1020,8 @@ namespace Store.UnitTest
             invoiceDetailRepository = GetInvoiceDetailRepository();
             InvoiceDetail newInvoiceDetail = invoiceDetailRepository.getSingle(invoiceDetail.Id).Result;
             Assert.IsNotNull(newInvoiceDetail);
-
-            List<InvoiceDetail> listInvoiceDetail = invoiceDetailRepository.GetList().Result;
+            InvoiceDetailSpesification spesification = new InvoiceDetailSpesification();
+            List<InvoiceDetail> listInvoiceDetail = invoiceDetailRepository.GetList(spesification.Build()).Result;
             Assert.AreEqual(1, listInvoiceDetail.Count());
 
             invoiceDetailRepository = GetInvoiceDetailRepository();
@@ -1023,8 +1031,8 @@ namespace Store.UnitTest
             invoiceDetailRepository = GetInvoiceDetailRepository();
             newInvoiceDetail = invoiceDetailRepository.getSingle(invoiceDetail.Id).Result;
             Assert.IsNull(newInvoiceDetail);
-
-            listInvoiceDetail = invoiceDetailRepository.GetList().Result;
+            InvoiceDetailSpesification InvoiceDetailSpesification = new InvoiceDetailSpesification();
+            listInvoiceDetail = invoiceDetailRepository.GetList(InvoiceDetailSpesification.Build()).Result;
             Assert.AreEqual(0, listInvoiceDetail.Count());
 
 
@@ -1058,7 +1066,7 @@ namespace Store.UnitTest
         {
             addItemBeras();
             ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
-            IItemService  itemService = new ItemService(tokoUnitOfWork);
+            IItemService itemService = new ItemService(tokoUnitOfWork);
             Item result = itemService.getSingle(1).Result;
 
 
@@ -1074,7 +1082,7 @@ namespace Store.UnitTest
             addItemBeras();
             ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
             IItemService itemService = new ItemService(tokoUnitOfWork);
-            
+
             Item result = itemService.getSingle(1).Result;
             Assert.IsNotNull(result);
             Assert.AreEqual("Beras", result.Name);
@@ -1121,13 +1129,15 @@ namespace Store.UnitTest
 
             tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
             itemService = new ItemService(tokoUnitOfWork);
-            List<Item> items = itemService.GetList().Result;
+            ItemSpesification spesification = new ItemSpesification();
+            
+            List<Item> items = itemService.GetList(spesification.Build()).Result;
             Assert.AreEqual(0, items.Count());
         }
 
         public int TanggalkeInt(DateTime dateDate)
         {
-            return Convert.ToInt32(dateDate.Year * 60 * 60 * 24 * 31 * 12 + dateDate.Month * 60 * 60 * 24 *31 + dateDate.Day * 60 * 60 *24 + dateDate.Hour * 60 * 60 + dateDate.Minute* 60 + dateDate.Second);
+            return Convert.ToInt32(dateDate.Year * 60 * 60 * 24 * 31 * 12 + dateDate.Month * 60 * 60 * 24 * 31 + dateDate.Day * 60 * 60 * 24 + dateDate.Hour * 60 * 60 + dateDate.Minute * 60 + dateDate.Second);
         }
         [TestMethod]
         public void testInsertInvoiceUnitOfWork()
@@ -1174,7 +1184,7 @@ namespace Store.UnitTest
             Assert.IsNotNull(result);
 
             int tanggalbaru = TanggalkeInt(DateTime.Now);
-            
+
             tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
             invoiceService = new InvoiceService(tokoUnitOfWork);
 
@@ -1208,7 +1218,8 @@ namespace Store.UnitTest
 
             tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
             invoiceService = new InvoiceService(tokoUnitOfWork);
-            List<Invoice> invoice = invoiceService.GetList().Result;
+            InvoiceSpesification Spesification = new InvoiceSpesification();
+            List<Invoice> invoice = invoiceService.GetList(Spesification.Build()).Result;
             Assert.AreEqual(0, invoice.Count());
 
         }
@@ -1219,6 +1230,67 @@ namespace Store.UnitTest
 
 
 
+    }
+    [TestClass]
+    public class UnitTestSpesification : UTBase
+    {
+
+
+        public UnitTestSpesification()
+        {
+
+            CleanData();
+        }
+        //[TestMethod]
+        public void AddItem(string nama, int price, string code)
+        {
+            ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            IItemService itemService = new ItemService(tokoUnitOfWork);
+            Item item = new Item()
+            {
+                Name = nama,
+                Price = price,
+                Code = code
+            };
+            itemService.Insert(item);
+        }
+        public int TanggalkeInt(DateTime dateDate)
+        {
+            return Convert.ToInt32(dateDate.Year * 60 * 60 * 24 * 31 * 12 + dateDate.Month * 60 * 60 * 24 * 31 + dateDate.Day * 60 * 60 * 24 + dateDate.Hour * 60 * 60 + dateDate.Minute * 60 + dateDate.Second);
+        }
+        [TestMethod]
+        public void TestFilterItem()
+        {
+            AddItem("Beras", 10000, "B100");
+            AddItem("Minyak", 14000, "M140");
+            //ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            //IItemService itemService = new ItemService(tokoUnitOfWork);
+            AppsContext _context = GetStoreDBContext();
+            IItemRepository itemRepository = new ItemRepository(_context);
+            ItemSpesification spesification = new ItemSpesification();
+            spesification.NameEquals = "Beras";
+            
+            List<Item> result = itemRepository.GetList(spesification.Build()).Result;
+
+        }
+        [TestMethod]
+        public void TestFilterItemService()
+        {
+           
+            AddItem("Beras", 10000, "B100");
+            AddItem("Minyak", 14000, "M140");
+            AddItem("Minyak", 12000, "M120");
+
+
+            ITokoUnitOfWork tokoUnitOfWork = new TokoUnitOfWork(GetStoreDBContext());
+            IItemService itemService = new ItemService(tokoUnitOfWork);
+            ItemSpesification spesification = new ItemSpesification();
+            spesification.PriceMax = 12000;
+            spesification.PriceMin = 11000;
+            List<Item> items = itemService.GetList(spesification.Build()).Result;
+            Assert.AreEqual(1, items.Count);
+
+        }
     }
 }
 

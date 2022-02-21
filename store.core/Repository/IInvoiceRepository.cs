@@ -1,4 +1,5 @@
-﻿using store.core.Entities;
+﻿using Ardalis.Specification;
+using store.core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,7 @@ namespace store.core.Repository
         Task Update(Invoice model, int id, CancellationToken cancellationToken = default);
         Task Delete(int id, CancellationToken cancellationToken = default);
         Task<Invoice> getSingle(int id, CancellationToken cancellationToken = default);
-        Task<List<Invoice>> GetList(CancellationToken cancellationToken = default);
+        Task<List<Invoice>> GetList(Specification<Invoice> filter, CancellationToken cancellationToken = default);
     }
     public interface IItemRepository
     {
@@ -21,7 +22,7 @@ namespace store.core.Repository
         Task Update(Item model, int id, CancellationToken cancellationToken = default);
         Task Delete(int id, CancellationToken cancellationToken = default);
         Task<Item> getSingle(int id, CancellationToken cancellationToken = default);
-        Task<List<Item>> GetList(CancellationToken cancellationToken = default);
+        Task<List<Item>> GetList(Specification<Item> filter, CancellationToken cancellationToken = default);
     }
     public interface IInvoiceDetailRepository
     {
@@ -29,6 +30,6 @@ namespace store.core.Repository
         Task Update(InvoiceDetail model, int id, CancellationToken cancellationToken = default);
         Task Delete(int id, CancellationToken cancellationToken = default);
         Task<InvoiceDetail> getSingle(int id, CancellationToken cancellationToken = default);
-        Task<List<InvoiceDetail>> GetList(CancellationToken cancellationToken = default);
+        Task<List<InvoiceDetail>> GetList(Specification<InvoiceDetail> filter, CancellationToken cancellationToken = default);
     }
 }

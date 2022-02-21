@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "c3KxKbK7X7sHzKZP0g51gRis1soWQZtTCJh5mdH0RDiRR30Dh2dEiBY0arqMXYT6FodDnnZI9JE61l2lQ5TL2Q==",
+  "dgSpecHash": "uZBnYtU/fxUrhJXmhVyMyYfUx+H7xHJYeO1LQOf6IzWWAYP2l0Q2l7ArWgM/Pn/mE0ExtpUr74EmIDaXj9Kdxg==",
   "success": true,
   "projectFilePath": "C:\\Haris\\.net core\\store\\store\\store.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\ardalis.specification\\5.2.0\\ardalis.specification.5.2.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\ardalis.specification.entityframeworkcore\\5.2.0\\ardalis.specification.entityframeworkcore.5.2.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

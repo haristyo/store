@@ -1,6 +1,8 @@
-﻿using store.core;
+﻿using Ardalis.Specification;
+using store.core;
 using store.core.Entities;
 using store.core.Services;
+using store.core.Spesifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,10 +80,13 @@ namespace store.data.Services
             return true;
         }
 
-        public async Task<List<Item>> GetList(CancellationToken cancellationToken = default)
+        public async Task<List<Item>> GetList(Specification<Item> specification, CancellationToken cancellationToken = default)
         {
-            return await _tokoUnitOfWork.Item.GetList(cancellationToken);   
+            //ItemSpesification spesification = new ItemSpesification();
+            //spesification.NameEquals = "Beras";
+            return await _tokoUnitOfWork.Item.GetList(specification, cancellationToken);   
         }
+
 
         public async Task<Item> getSingle(int id, CancellationToken cancellationToken = default)
         {
@@ -173,9 +178,9 @@ namespace store.data.Services
             return true;
         }
 
-        public async Task<List<Invoice>> GetList(CancellationToken cancellationToken = default)
+        public async Task<List<Invoice>> GetList(Specification<Invoice> specification, CancellationToken cancellationToken = default)
         {
-            List<Invoice> existingInvoiceList = await _tokoUnitOfWork.Invoice.GetList(cancellationToken);
+            List<Invoice> existingInvoiceList = await _tokoUnitOfWork.Invoice.GetList(spesification, cancellationToken);
             return existingInvoiceList ??= null;
         }
 

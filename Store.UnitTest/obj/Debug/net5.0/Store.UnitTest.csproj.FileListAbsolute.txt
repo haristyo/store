@@ -118,3 +118,5 @@ C:\Haris\.net core\store\Store.UnitTest\obj\Debug\net5.0\ref\Store.UnitTest.dll
 C:\Haris\.net core\store\Store.UnitTest\obj\Debug\net5.0\Store.UnitTest.pdb
 C:\Haris\.net core\store\Store.UnitTest\obj\Debug\net5.0\Store.UnitTest.genruntimeconfig.cache
 C:\Haris\.net core\store\Store.UnitTest\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Haris\.net core\store\Store.UnitTest\bin\Debug\net5.0\Ardalis.Specification.dll
+C:\Haris\.net core\store\Store.UnitTest\bin\Debug\net5.0\Ardalis.Specification.EntityFrameworkCore.dll

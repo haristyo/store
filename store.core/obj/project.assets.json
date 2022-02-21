@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.1": {
+      "Ardalis.Specification/5.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Ardalis.Specification.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ardalis.Specification.dll": {}
+        }
+      },
       "Humanizer.Core/2.8.26": {
         "type": "package",
         "compile": {
@@ -275,6 +284,20 @@
     }
   },
   "libraries": {
+    "Ardalis.Specification/5.2.0": {
+      "sha512": "LYvbL3vln7wu1QzSkogEtjBgrJD+AUJDYsyPFtFHmvRYxb0f8JwGOXarlG8B+TUZKf0dgoWr+bB0fmEkKKEbBQ==",
+      "type": "package",
+      "path": "ardalis.specification/5.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ardalis.specification.5.2.0.nupkg.sha512",
+        "ardalis.specification.nuspec",
+        "icon.png",
+        "lib/netstandard2.0/Ardalis.Specification.dll",
+        "lib/netstandard2.0/Ardalis.Specification.pdb"
+      ]
+    },
     "Humanizer.Core/2.8.26": {
       "sha512": "OiKusGL20vby4uDEswj2IgkdchC1yQ6rwbIkZDVBPIR6al2b7n3pC91elBul9q33KaBgRKhbZH3+2Ur4fnWx2A==",
       "type": "package",
@@ -897,6 +920,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.1": [
+      "Ardalis.Specification >= 5.2.0",
       "Microsoft.EntityFrameworkCore >= 5.0.14",
       "Microsoft.EntityFrameworkCore.Design >= 5.0.14",
       "Microsoft.EntityFrameworkCore.Relational >= 5.0.14"
@@ -946,6 +970,10 @@
       "netstandard2.1": {
         "targetAlias": "netstandard2.1",
         "dependencies": {
+          "Ardalis.Specification": {
+            "target": "Package",
+            "version": "[5.2.0, )"
+          },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
             "version": "[5.0.14, )"

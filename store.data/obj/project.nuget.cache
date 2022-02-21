@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "+5bsKL78GKqzyTWcsJlG8Gc0QF8z4a+cZT89EOrQWjh8KfYLfSQ8Hbix1IK2GssVfKz7Y6xieNXLzFXOQL2SuA==",
+  "dgSpecHash": "o0uIL6qnFndcnZEATZHiSHGAytTqW7ZrYzSjOSVNs4Ubc2b3maK95lhTK7Kk4OfzZE659VtEZmTrchWQ73sOEA==",
   "success": true,
   "projectFilePath": "C:\\Haris\\.net core\\store\\store.data\\store.data.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\ardalis.specification\\5.2.0\\ardalis.specification.5.2.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\ardalis.specification.entityframeworkcore\\5.2.0\\ardalis.specification.entityframeworkcore.5.2.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\microsoft.entityframeworkcore\\5.0.14\\microsoft.entityframeworkcore.5.0.14.nupkg.sha512",

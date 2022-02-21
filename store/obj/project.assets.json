@@ -2,6 +2,29 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "Ardalis.Specification/5.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Ardalis.Specification.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ardalis.Specification.dll": {}
+        }
+      },
+      "Ardalis.Specification.EntityFrameworkCore/5.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Ardalis.Specification": "5.2.0",
+          "Microsoft.EntityFrameworkCore": "5.0.9",
+          "Microsoft.EntityFrameworkCore.Relational": "5.0.9"
+        },
+        "compile": {
+          "lib/netstandard2.1/Ardalis.Specification.EntityFrameworkCore.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Ardalis.Specification.EntityFrameworkCore.dll": {}
+        }
+      },
       "AutoMapper/11.0.0": {
         "type": "package",
         "dependencies": {
@@ -369,6 +392,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
+          "Ardalis.Specification": "5.2.0",
           "Microsoft.EntityFrameworkCore": "5.0.14",
           "Microsoft.EntityFrameworkCore.Design": "5.0.14",
           "Microsoft.EntityFrameworkCore.Relational": "5.0.14"
@@ -384,6 +408,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
+          "Ardalis.Specification.EntityFrameworkCore": "5.2.0",
           "Microsoft.EntityFrameworkCore": "5.0.14",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.14",
           "store.core": "1.0.0"
@@ -398,6 +423,36 @@
     }
   },
   "libraries": {
+    "Ardalis.Specification/5.2.0": {
+      "sha512": "LYvbL3vln7wu1QzSkogEtjBgrJD+AUJDYsyPFtFHmvRYxb0f8JwGOXarlG8B+TUZKf0dgoWr+bB0fmEkKKEbBQ==",
+      "type": "package",
+      "path": "ardalis.specification/5.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ardalis.specification.5.2.0.nupkg.sha512",
+        "ardalis.specification.nuspec",
+        "icon.png",
+        "lib/netstandard2.0/Ardalis.Specification.dll",
+        "lib/netstandard2.0/Ardalis.Specification.pdb"
+      ]
+    },
+    "Ardalis.Specification.EntityFrameworkCore/5.2.0": {
+      "sha512": "Ud0JZrcFisjmibFcufWtNnxTJNkU4dqL7ZVKx1AvZaW1dZJT98U0h7baazetQhlAbaS7NSiLHvHnMoCoAaj+jw==",
+      "type": "package",
+      "path": "ardalis.specification.entityframeworkcore/5.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ardalis.specification.entityframeworkcore.5.2.0.nupkg.sha512",
+        "ardalis.specification.entityframeworkcore.nuspec",
+        "icon.png",
+        "lib/netstandard2.0/Ardalis.Specification.EntityFrameworkCore.dll",
+        "lib/netstandard2.0/Ardalis.Specification.EntityFrameworkCore.pdb",
+        "lib/netstandard2.1/Ardalis.Specification.EntityFrameworkCore.dll",
+        "lib/netstandard2.1/Ardalis.Specification.EntityFrameworkCore.pdb"
+      ]
+    },
     "AutoMapper/11.0.0": {
       "sha512": "+596AnKykYCk9RxXCEF4GYuapSebQtFVvIA1oVG1rrRkCLAC7AkWehJ0brCfYUbdDW3v1H/p0W3hob7JoXGjMw==",
       "type": "package",

@@ -7,6 +7,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.14" />
+	  <PackageReference Include="Ardalis.Specification" Version="5.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UnitOfWork\" />

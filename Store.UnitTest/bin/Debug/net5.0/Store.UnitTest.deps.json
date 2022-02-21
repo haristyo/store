@@ -19,6 +19,27 @@
           "Store.UnitTest.dll": {}
         }
       },
+      "Ardalis.Specification/5.2.0": {
+        "runtime": {
+          "lib/netstandard2.0/Ardalis.Specification.dll": {
+            "assemblyVersion": "5.2.0.0",
+            "fileVersion": "5.2.0.0"
+          }
+        }
+      },
+      "Ardalis.Specification.EntityFrameworkCore/5.2.0": {
+        "dependencies": {
+          "Ardalis.Specification": "5.2.0",
+          "Microsoft.EntityFrameworkCore": "5.0.14",
+          "Microsoft.EntityFrameworkCore.Relational": "5.0.14"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Ardalis.Specification.EntityFrameworkCore.dll": {
+            "assemblyVersion": "5.2.0.0",
+            "fileVersion": "5.2.0.0"
+          }
+        }
+      },
       "coverlet.collector/3.0.2": {},
       "Humanizer.Core/2.8.26": {
         "runtime": {
@@ -1236,6 +1257,7 @@
       },
       "store.core/1.0.0": {
         "dependencies": {
+          "Ardalis.Specification": "5.2.0",
           "Microsoft.EntityFrameworkCore": "5.0.14",
           "Microsoft.EntityFrameworkCore.Design": "5.0.14",
           "Microsoft.EntityFrameworkCore.Relational": "5.0.14"
@@ -1246,6 +1268,7 @@
       },
       "store.data/1.0.0": {
         "dependencies": {
+          "Ardalis.Specification.EntityFrameworkCore": "5.2.0",
           "Microsoft.EntityFrameworkCore": "5.0.14",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.14",
           "store.core": "1.0.0"
@@ -1261,6 +1284,20 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Ardalis.Specification/5.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LYvbL3vln7wu1QzSkogEtjBgrJD+AUJDYsyPFtFHmvRYxb0f8JwGOXarlG8B+TUZKf0dgoWr+bB0fmEkKKEbBQ==",
+      "path": "ardalis.specification/5.2.0",
+      "hashPath": "ardalis.specification.5.2.0.nupkg.sha512"
+    },
+    "Ardalis.Specification.EntityFrameworkCore/5.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ud0JZrcFisjmibFcufWtNnxTJNkU4dqL7ZVKx1AvZaW1dZJT98U0h7baazetQhlAbaS7NSiLHvHnMoCoAaj+jw==",
+      "path": "ardalis.specification.entityframeworkcore/5.2.0",
+      "hashPath": "ardalis.specification.entityframeworkcore.5.2.0.nupkg.sha512"
     },
     "coverlet.collector/3.0.2": {
       "type": "package",

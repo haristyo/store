@@ -1,4 +1,6 @@
-﻿using store.core.Entities;
+﻿using Ardalis.Specification;
+using store.core.Entities;
+using store.core.Spesifications;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,7 +20,7 @@ namespace store.core.Services
         Task<Item> Update(Item item, int id, CancellationToken cancellationToken = default);
         Task<bool> Delete(int id, CancellationToken cancellationToken = default);
         Task<Item> getSingle(int id, CancellationToken cancellationToken = default);
-        Task<List<Item>> GetList(CancellationToken cancellationToken = default);
+        Task<List<Item>> GetList(Specification<Item> specification, CancellationToken cancellationToken = default);
     }
     public interface IInvoiceService : IService
     {
@@ -26,7 +28,7 @@ namespace store.core.Services
         Task<Invoice> Update(Invoice invoice, int id, CancellationToken cancellationToken = default);
         Task<bool> Delete(int id, CancellationToken cancellationToken = default);
         Task<Invoice> getSingle(int id, CancellationToken cancellationToken = default);
-        Task<List<Invoice>> GetList(CancellationToken cancellationToken = default);
+        Task<List<Invoice>> GetList(Specification<Invoice> specificationCancellationToken cancellationToken = default);
     }
     //public interface IInvoiceDetailService : IService
     //{

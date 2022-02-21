@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ardalis.Specification;
+using Ardalis.Specification.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using store.core.Entities;
 using store.core.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,10 +48,13 @@ namespace store.data.Repository
             _dbContext.Remove(existingInvoice);
         }
 
-        public async Task<List<Invoice>> GetList(CancellationToken cancellationToken = default)
+        public async Task<List<Invoice>> GetList(Specification<Invoice> specification, CancellationToken cancellationToken = default)
         {
+            IQueryable<Invoice> query = _dbSetInvoice.AsQueryable();
+            SpecificationEvaluator evaluator = new SpecificationEvaluator();
+            query = evaluator.GetQuery(query, specification);
             //throw new NotImplementedException();
-            return _dbSetInvoice.Include(f=>f.InvoiceDetails).ThenInclude(e=>e.Item).ToListAsync(cancellationToken).Result;
+            return query.Include(f=>f.InvoiceDetails).ThenInclude(e=>e.Item).ToListAsync(cancellationToken).Result;
         }
 
         public async Task<Invoice> getSingle(int id, CancellationToken cancellationToken = default)
@@ -96,10 +102,13 @@ namespace store.data.Repository
             _dbContext.Remove(existingItem);
         }
 
-        public async Task<List<Item>> GetList(CancellationToken cancellationToken = default)
+        public async Task<List<Item>> GetList(Specification<Item> specification, CancellationToken cancellationToken = default)
         {
+            IQueryable<Item> query = _dbSetItem.AsQueryable();
+            SpecificationEvaluator evaluator = new SpecificationEvaluator();
+            query = evaluator.GetQuery(query, specification);
             //throw new NotImplementedException();
-            return await _dbSetItem.ToListAsync(cancellationToken);
+            return await query.ToListAsync(cancellationToken);
         }
 
         public async Task<Item> getSingle(int id, CancellationToken cancellationToken = default)
@@ -146,10 +155,13 @@ namespace store.data.Repository
             _dbContext.Remove(existingInvoiceDetail);
         }
 
-        public async Task<List<InvoiceDetail>> GetList(CancellationToken cancellationToken = default)
+        public async Task<List<InvoiceDetail>> GetList(Specification<InvoiceDetail> specification, CancellationToken cancellationToken = default)
         {
+            IQueryable<InvoiceDetail> query = _dbSetInvoiceDetail.AsQueryable();
+            SpecificationEvaluator evaluator = new SpecificationEvaluator();
+            query = evaluator.GetQuery(query, specification);
             //throw new NotImplementedException();
-            return _dbSetInvoiceDetail.Include(f=>f.Item).ToListAsync(cancellationToken).Result;
+            return query.Include(f=>f.Item).ToListAsync(cancellationToken).Result;
         }
 
         public async Task<InvoiceDetail> getSingle(int id, CancellationToken cancellationToken = default)

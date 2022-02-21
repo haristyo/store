@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "TNCX4FkFq+Xp/JMXCtuFUH8N04jEpzBXXdjrG2evNFJ8Bsntgd6hy5gLDiGLuAJuDjcxxRQ16vd1u8jARPcf2A==",
+  "dgSpecHash": "ZFCRoJL1IHlNGZb3jPfAcyZo3YIgk27EeIVdtDYu6hvD1tCFEZtOpL9s25SvdBUOEqLROSTkDO+kQug7OHPcgA==",
   "success": true,
   "projectFilePath": "C:\\Haris\\.net core\\store\\Store.UnitTest\\Store.UnitTest.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\ardalis.specification\\5.2.0\\ardalis.specification.5.2.0.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\ardalis.specification.entityframeworkcore\\5.2.0\\ardalis.specification.entityframeworkcore.5.2.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\coverlet.collector\\3.0.2\\coverlet.collector.3.0.2.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\microsoft.codecoverage\\16.9.4\\microsoft.codecoverage.16.9.4.nupkg.sha512",
