@@ -126,7 +126,11 @@ namespace store.data.Services
 
         public bool ValidateBase(Item item)
         {
-            if (item != null)
+            if (item == null)
+            {
+                AddError("Object Item Tidak boleh kosong");
+            }
+            else
             {
                 if (string.IsNullOrEmpty(item.Name))
                 {
@@ -140,6 +144,7 @@ namespace store.data.Services
                     AddError("Price", "Harga harus Lebih Besar daripada 0");
                 }
             }
+            
             return GetServiceState();
         }
         public bool ValidateInsert(Item item)
@@ -201,20 +206,22 @@ namespace store.data.Services
         public async Task<bool> Delete(int id, CancellationToken cancellationToken = default)
         {
             Invoice invoiceExist = await _tokoUnitOfWork.Invoice.getSingle(id);
-            List<InvoiceDetail> transaksiExist = invoiceExist.InvoiceDetails.ToList();
-
             if (ValidateUpdate(invoiceExist, id) == false)
             {
                 return false;
             }
-
-            if (transaksiExist.Count() > 0)
+            if(invoiceExist != null)
             {
-                foreach (var deletedTransaksi in transaksiExist)
+                List<InvoiceDetail> transaksiExist = invoiceExist.InvoiceDetails.ToList();
+                if (transaksiExist.Count() > 0)
                 {
-                    await _tokoUnitOfWork.InvoiceDetail.Delete(deletedTransaksi.Id, cancellationToken);
+                    foreach (var deletedTransaksi in transaksiExist)
+                    {
+                        await _tokoUnitOfWork.InvoiceDetail.Delete(deletedTransaksi.Id, cancellationToken);
+                    }
                 }
             }
+
             await _tokoUnitOfWork.Invoice.Delete(id, cancellationToken);
             await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
             return true;
@@ -246,11 +253,17 @@ namespace store.data.Services
 
         public async Task<Invoice> Update(Invoice invoice, int id, CancellationToken cancellationToken = default)
         {
+            if (ValidateUpdate(invoice, id) == false)
+            {
+                return null;
+            }
+
             Invoice invoiceExist = await _tokoUnitOfWork.Invoice.getSingle(id);
             List<InvoiceDetail> transaksiExist = invoiceExist.InvoiceDetails.ToList();
 
             foreach (var newItem in invoice.InvoiceDetails)
             {
+                newItem.InvoiceID = invoice.Id;
                 if (transaksiExist.Any(f => f.Id == newItem.Id))
                 {
                     InvoiceDetail transaksi = transaksiExist.First(f => f.Id == newItem.Id);
@@ -276,21 +289,25 @@ namespace store.data.Services
 
         public bool ValidateBase(Invoice invoice)
         {
+
             if(invoice == null)
             {
                 AddError("Object Invoice Tidak boleh kosong");
             }
-            if (invoice.InvoiceNo <= 0)
+            else
             {
-                AddError("InvoiceNo", "Nomor Invoice Harus Diisi.");
-            }
-            if (string.IsNullOrEmpty( Convert.ToString (invoice.InvoiceDate)))
-            {
-                AddError("Code", "Tanggal Harus Diisi.");
-            }
-            if(invoice.InvoiceDetails.Count <= 0)
-            {
-                AddError("InvoiceDetails", "Harus memiliki invoice detail");
+                if (invoice.InvoiceNo <= 0)
+                {
+                    AddError("InvoiceNo", "Nomor Invoice Harus Diisi.");
+                }
+                if (string.IsNullOrEmpty( Convert.ToString (invoice.InvoiceDate)))
+                {
+                    AddError("Code", "Tanggal Harus Diisi.");
+                }
+                if(invoice.InvoiceDetails.Count <= 0)
+                {
+                    AddError("InvoiceDetails", "Harus memiliki invoice detail");
+                }
             }
             return GetServiceState();
         }
@@ -313,14 +330,22 @@ namespace store.data.Services
             {
                 return GetServiceState();
             }
-            if(invoice.Id != id)
+            if (invoice == null)
             {
-                AddError("Id", "Id tidak boleh diganti");
-            }
-            if(id==0 || invoice.Id == 0)
+                AddError("Id", "Id Tidak Ditemukan");
+            } else
             {
-                AddError("Id", "Id harus diisi");
+                if (invoice.Id != id)
+                {
+                    AddError("Id", "Id tidak boleh diganti");
+                }
+                if (id == 0 || invoice.Id == 0)
+                {
+                    AddError("Id", "Id harus diisi");
+                }
             }
+            
+
             return GetServiceState();
         }
 

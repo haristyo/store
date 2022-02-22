@@ -32,7 +32,7 @@ namespace store
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppsContext>(opt => opt.UseInMemoryDatabase("db_item"));
+            services.AddDbContext<AppsContext>(opt => opt.UseInMemoryDatabase("db_toko"));
             // services.AddAutoMapper(typeof(store.Profiles.DTO))
             services.AddAutoMapper(typeof(store.Profiles.DTO.MappingProfiles));
             services.AddTransient<ITokoUnitOfWork, TokoUnitOfWork>();

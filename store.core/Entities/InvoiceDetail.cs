@@ -6,19 +6,19 @@ namespace store.core.Entities
     {
         public InvoiceDetail() { }
         // (invoiceDetail, item, this)
-        public InvoiceDetail(int qty, Item item, Invoice invoice)
+        public InvoiceDetail(int qty, int itemId, Invoice invoice)
         {
             Qty = qty;
-            if (item != null)
+            if (itemId != null)
             {
-                ItemId = item.Id;
-                Item = item;
-                Price = item.Price * qty;
+                ItemId = itemId;
+                //Item = item;
+                //Price = item.Price * qty;
             }
             if (invoice != null)
             {
                 InvoiceID = invoice.Id;
-                Invoice = invoice;
+                //Invoice = invoice;
             }
         }
 
@@ -27,9 +27,9 @@ namespace store.core.Entities
         public int ItemId { get; set; }
         public virtual Item? Item { get; set; }
         // [ForeignKey("Invoice")]
-        public int? InvoiceID { get; set; }
+        public int InvoiceID { get; set; }
         public virtual Invoice? Invoice { get; set; }
-        public double Price { get; set; }
+        public double? Price { get; set; }
         public int Qty { get; set; }
     }
 

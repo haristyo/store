@@ -16,7 +16,6 @@ namespace store.Controllers
         public class ItemController : ControllerBase
         {
             private readonly IItemService _itemService;
-            //private readonly AppsContext _context;
             private readonly IMapper _mapper;
             public ItemController(IItemService itemService, IMapper mapper)
             {
@@ -33,14 +32,10 @@ namespace store.Controllers
                 return Ok(listItemDTO);
             }
             [HttpGet("{id:int}")]
-            public async Task<ActionResult<List<ItemDTO>>> GetSingle([FromRoute] int id, CancellationToken cancellationToken = default)
+            public async Task<ActionResult<ItemDTO>> GetSingle([FromRoute] int id, CancellationToken cancellationToken = default)
             {
-            //ItemSpesification spesification = new ItemSpesification();
-            //List<Item> listItem = await _itemService.GetList(spesification, cancellationToken);
-            //List<ItemDTO> listItemDTO = _mapper.Map<List<Item>, List<ItemDTO>>(listItem);
-            //return Ok(listItemDTO);
+
                 Item item = await _itemService.getSingle(id, cancellationToken);
-                //if(item==null)
                 ItemDTO result = _mapper.Map<Item, ItemDTO>(item);
                 return Ok(result);
             }

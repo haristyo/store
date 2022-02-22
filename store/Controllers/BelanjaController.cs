@@ -81,7 +81,7 @@ namespace testing.Controllers
                 Qty = 1,
             };
             // invoice.addInvoiceDetailFull(inputInvoiceDetail);
-            invoice.addInvoiceDetail(100, item);
+            invoice.addInvoiceDetail(100, item.Id);
             // _context.Invoices.Add(invoice);
             _context.SaveChanges();
             await _context.SaveChangesAsync(cancellationToken);
@@ -124,7 +124,7 @@ namespace testing.Controllers
                     Qty = data[i].Qty,
                 };
 
-                invoice.addInvoiceDetail(data[i].Qty, item);
+                invoice.addInvoiceDetail(data[i].Qty, item.Id);
             }
             // _context.Invoices.Add(invoice);
             // _context.SaveChanges();

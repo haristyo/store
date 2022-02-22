@@ -21,8 +21,21 @@ namespace store.data.Repository
             _dbContext = context;
             _dbSetInvoice = _dbContext.Set<Invoice>();
         }
+        public int TanggalkeInt(DateTime dateDate)
+        {
+            return Convert.ToInt32(dateDate.Year * 60 * 60 * 24 * 31 * 12 + dateDate.Month * 60 * 60 * 24 * 31 + dateDate.Day * 60 * 60 * 24 + dateDate.Hour * 60 * 60 + dateDate.Minute * 60 + dateDate.Second);
+        }
         public async Task Insert(Invoice model, CancellationToken cancellationToken = default)
         {
+            if (model.InvoiceDate == null)
+            {
+                model.InvoiceDate = DateTime.Now;
+            }
+
+            if(model.InvoiceNo == null)
+            {
+                model.InvoiceNo = TanggalkeInt(DateTime.Now);
+            }
             await _dbSetInvoice.AddAsync(model, cancellationToken);
         }
 

@@ -284,8 +284,8 @@ namespace Store.UnitTest
             };
             _Context.Invoices.Add(invoice);
 
-            invoice.addInvoiceDetail(1, item);
-            invoice.addInvoiceDetail(5, item);
+            invoice.addInvoiceDetail(1, item.Id);
+            invoice.addInvoiceDetail(5, item.Id);
             _Context.SaveChanges();
             _Context = GetStoreDBContext();
             Invoice result = _Context.Invoices.Include(inv => inv.InvoiceDetails).ThenInclude(inv => inv.Item).FirstOrDefault();
@@ -327,8 +327,8 @@ namespace Store.UnitTest
             };
             _Context.Invoices.Add(invoice);
 
-            invoice.addInvoiceDetail(1, item);
-            invoice.addInvoiceDetail(5, item);
+            invoice.addInvoiceDetail(1, item.Id);
+            invoice.addInvoiceDetail(5, item.Id);
             _Context.SaveChanges();
             _Context = GetStoreDBContext();
             Invoice result = _Context.Invoices.Include(inv => inv.InvoiceDetails).ThenInclude(inv => inv.Item).FirstOrDefault();
@@ -352,8 +352,8 @@ namespace Store.UnitTest
             };
             _Context.Invoices.Add(invoice);
 
-            invoice.addInvoiceDetail(1, item);
-            invoice.addInvoiceDetail(5, item);
+            invoice.addInvoiceDetail(1, item.Id);
+            invoice.addInvoiceDetail(5, item.Id);
             _Context.SaveChanges();
 
             _Context = GetStoreDBContext();
@@ -390,8 +390,8 @@ namespace Store.UnitTest
             };
             _Context.Invoices.Add(invoice);
 
-            invoice.addInvoiceDetail(1, item); //masukkan quantity dan object item pertama
-            invoice.addInvoiceDetail(5, item); //masukkan quantity dan object item kedua
+            invoice.addInvoiceDetail(1, item.Id); //masukkan quantity dan object item pertama
+            invoice.addInvoiceDetail(5, item.Id); //masukkan quantity dan object item kedua
             _Context.SaveChanges();
             InvoiceDetail target = invoice.InvoiceDetails.Where(f => f.Id == 1).FirstOrDefault();
             invoice.removeInvoiceDetail(target); // hapus pada entity invoice dengan object detailInvoice adalah target

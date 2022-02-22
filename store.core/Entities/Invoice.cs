@@ -7,16 +7,16 @@ namespace store.core.Entities
     {
 
         public int Id { get; set; }
-        public DateTime InvoiceDate { get; set; }
-        public int InvoiceNo { get; set; }
+        public DateTime? InvoiceDate { get; set; }
+        public int? InvoiceNo { get; set; }
 
         private List<InvoiceDetail> _InvoiceDetails = new List<InvoiceDetail>();
         public virtual IReadOnlyList<InvoiceDetail> InvoiceDetails => _InvoiceDetails.AsReadOnly();
         //public List<City> Cities { get; set; }
-        public void addInvoiceDetail(int qty, Item item)
+        public void addInvoiceDetail(int qty, int itemId)
         {
 
-            var inputInvoiceDetail = new InvoiceDetail(qty, item, this);
+            var inputInvoiceDetail = new InvoiceDetail(qty, itemId, this);
             _InvoiceDetails.Add(inputInvoiceDetail);
             // _InvoiceDetails.
         }
