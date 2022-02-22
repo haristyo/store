@@ -28,7 +28,7 @@ namespace store.core.Services
         Task<Invoice> Update(Invoice invoice, int id, CancellationToken cancellationToken = default);
         Task<bool> Delete(int id, CancellationToken cancellationToken = default);
         Task<Invoice> getSingle(int id, CancellationToken cancellationToken = default);
-        Task<List<Invoice>> GetList(Specification<Invoice> specificationCancellationToken cancellationToken = default);
+        Task<List<Invoice>> GetList(Specification<Invoice> specification, CancellationToken cancellationToken = default);
     }
     //public interface IInvoiceDetailService : IService
     //{

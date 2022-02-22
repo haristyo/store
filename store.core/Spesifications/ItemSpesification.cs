@@ -114,7 +114,7 @@ namespace store.core.Spesifications
             }
             if (InvoiceIdEquals.HasValue)
             {
-                Query.Where(f=>f.InvoiceID = InvoiceIdEquals.Value)
+                Query.Where(f => f.InvoiceID == InvoiceIdEquals.Value);
             }
 
             return this;

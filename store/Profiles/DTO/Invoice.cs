@@ -13,6 +13,13 @@ namespace store.Profiles.DTO
         public List<InvoiceDetailDTO> InvoiceDetails { get; set; }
 
     }
+    public class ItemDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public string Code { get; set; }
+    }
     public class InvoiceDetailDTO
     {
         public int Id { get; set; }
@@ -26,8 +33,8 @@ namespace store.Profiles.DTO
     {
         public MappingProfiles()
         {
-            CreateMap<Invoice, InvoiceDTO>()
-            .ReverseMap();
+            CreateMap<Invoice, InvoiceDTO>().ReverseMap();
+            CreateMap<Item, ItemDTO>().ReverseMap();
 
             CreateMap<InvoiceDetail, InvoiceDetailDTO>()
             .ForMember(DTO => DTO.ItemPrice, opt => opt.MapFrom(e => e.Item.Price))

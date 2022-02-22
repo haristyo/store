@@ -71,7 +71,8 @@ namespace store.data.Services
         public async Task<bool> Delete(int id, CancellationToken cancellationToken = default)
         {
             Item existingItemId = _tokoUnitOfWork.Item.getSingle(id).Result;
-            if (existingItemId.Id != id)
+
+            if (ValidateUpdate(existingItemId, id) == false)
             {
                 return false;
             }
@@ -96,7 +97,7 @@ namespace store.data.Services
 
         public async Task<Item> Insert(Item item, CancellationToken cancellationToken = default)
         {
-            if (Validate(item) == false)
+            if (ValidateInsert(item) == false)
             {
                 return null;
             }
@@ -107,7 +108,7 @@ namespace store.data.Services
 
         public async Task<Item> Update(Item item, int id, CancellationToken cancellationToken = default)
         {
-            if (Validate(item) == false )
+            if (ValidateUpdate(item,id) == false )
             {
                 return null;
             }
@@ -121,19 +122,60 @@ namespace store.data.Services
             await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
             return item;
         }
+   
 
-        public bool Validate(Item item)
+        public bool ValidateBase(Item item)
         {
-            if (string.IsNullOrEmpty(item.Name))
+            if (item != null)
             {
-                AddError("Nama","Nama Harus Diisi.");
+                if (string.IsNullOrEmpty(item.Name))
+                {
+                    AddError("Name","Nama Harus Diisi.");
+                }
+                if (string.IsNullOrEmpty(item.Code))
+                {
+                    AddError("Code","Code Harus Diisi.");
+                }
+                if(0 >= item.Price){
+                    AddError("Price", "Harga harus Lebih Besar daripada 0");
+                }
             }
-            if (string.IsNullOrEmpty(item.Code))
+            return GetServiceState();
+        }
+        public bool ValidateInsert(Item item)
+        {
+            if (ValidateBase(item) == false)
             {
-                AddError("Code","Nama Harus Diisi.");
+                return GetServiceState();
             }
-            if(0 >= item.Price){
-                AddError("Harga", "Harga harus Lebih Besar daripada 0");
+            Item existItem = _tokoUnitOfWork.Item.getSingle(item.Id).Result;
+            if (existItem != null)
+            {
+                AddError("Code", "Invoice No Tidak Boleh sama");
+            }
+            return GetServiceState();
+        }
+        public bool ValidateUpdate(Item item, int id)
+        {
+            if (ValidateBase(item) == false)
+            {
+                return GetServiceState();
+            }
+
+            if (item == null)
+            {
+                AddError("Id", "Id Tidak Ditemukan");
+            }
+            else
+            {
+                if (item.Id != id)
+                {
+                    AddError("Id", "Id tidak boleh diganti");
+                }
+                if (id == 0 || item.Id == 0)
+                {
+                    AddError("Id", "Id harus diisi");
+                }
             }
             return GetServiceState();
         }
@@ -180,7 +222,7 @@ namespace store.data.Services
 
         public async Task<List<Invoice>> GetList(Specification<Invoice> specification, CancellationToken cancellationToken = default)
         {
-            List<Invoice> existingInvoiceList = await _tokoUnitOfWork.Invoice.GetList(spesification, cancellationToken);
+            List<Invoice> existingInvoiceList = await _tokoUnitOfWork.Invoice.GetList(specification, cancellationToken);
             return existingInvoiceList ??= null;
         }
 

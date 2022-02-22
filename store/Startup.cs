@@ -14,6 +14,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using store.data;
 using System.Text.Json.Serialization;
+using store.core;
+using store.core.Services;
+using store.data.Services;
 
 namespace store
 {
@@ -32,6 +35,9 @@ namespace store
             services.AddDbContext<AppsContext>(opt => opt.UseInMemoryDatabase("db_item"));
             // services.AddAutoMapper(typeof(store.Profiles.DTO))
             services.AddAutoMapper(typeof(store.Profiles.DTO.MappingProfiles));
+            services.AddTransient<ITokoUnitOfWork, TokoUnitOfWork>();
+            services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<IInvoiceService, InvoiceService>();
             services.AddControllers();
             // services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddSwaggerGen(c =>

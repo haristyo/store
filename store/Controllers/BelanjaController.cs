@@ -22,7 +22,7 @@ namespace testing.Controllers
         {
             _context = context;
             _mapper = mapper;
-}
+        }
         [Route("addItem")]
         public void initItem()
         {

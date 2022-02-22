@@ -90,3 +90,5 @@ C:\Haris\.net core\store\store\obj\Debug\net5.0\store.dll
 C:\Haris\.net core\store\store\obj\Debug\net5.0\ref\store.dll
 C:\Haris\.net core\store\store\obj\Debug\net5.0\store.pdb
 C:\Haris\.net core\store\store\obj\Debug\net5.0\store.genruntimeconfig.cache
+C:\Haris\.net core\store\store\bin\Debug\net5.0\Ardalis.Specification.dll
+C:\Haris\.net core\store\store\bin\Debug\net5.0\Ardalis.Specification.EntityFrameworkCore.dll
