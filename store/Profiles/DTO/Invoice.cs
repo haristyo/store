@@ -52,14 +52,16 @@ namespace store.Profiles.DTO
                     }
                 );
             CreateMap<InvoiceDetail, InvoiceDetailDTO>()
-                .ForMember(invoiceDetailDTO => invoiceDetailDTO.ItemName, invoiceDetail => invoiceDetail.MapFrom(e => e.Item.Name))
-                .ForMember(invoiceDetailDTO => invoiceDetailDTO.ItemPrice, invoiceDetail => invoiceDetail.MapFrom(e => e.Item.Price))
+                //.ForMember(invoiceDetailDTO => invoiceDetailDTO.ItemName, invoiceDetail => invoiceDetail.MapFrom(e => e.Item.Name))
+                //.ForMember(invoiceDetailDTO => invoiceDetailDTO.ItemPrice, invoiceDetail => invoiceDetail.MapFrom(e => e.Item.Price))
                 .ForMember(invoiceDetailDTO => invoiceDetailDTO.Price, invoiceDetail => invoiceDetail.MapFrom(e => e.Item.Price * e.Qty))
+                //.ReverseMap()
                 ;
             CreateMap<InvoiceDetailDTO, InvoiceDetail>()
                 .ForMember(invoiceDetail => invoiceDetail.ItemId, invoiceDetailDTO => invoiceDetailDTO.MapFrom(e => e.ItemId))
-                .ForMember(invoiceDetail => invoiceDetail.Price, invoiceDetailDTO => invoiceDetailDTO.MapFrom(e => e.Price))
-                .ForMember(invoiceDetail => invoiceDetail.Qty, invoiceDetailDTO => invoiceDetailDTO.MapFrom(e => e.Qty))
+                //.ForMember(invoiceDetail => invoiceDetail.Price, invoiceDetailDTO => invoiceDetailDTO.MapFrom(e => e.Price))
+                //.ForMember(invoiceDetail => invoiceDetail.Qty, invoiceDetailDTO => invoiceDetailDTO.MapFrom(e => e.Qty))
+                //.ReverseMap()
                 ;
 
         }
