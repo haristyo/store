@@ -17,11 +17,9 @@ namespace store.Controllers
     public class InvoiceController : ControllerBase
     {
         private readonly IInvoiceService _invoiceService;
-        private readonly IItemService _itemService;
         private readonly IMapper _mapper;
-        public InvoiceController(IInvoiceService invoiceService, IMapper mapper, IItemService itemService)
+        public InvoiceController(IInvoiceService invoiceService, IMapper mapper)
         {
-            _itemService = itemService;
             _invoiceService = invoiceService;
             _mapper = mapper;
         }
@@ -34,7 +32,7 @@ namespace store.Controllers
             return Ok(listInvoiceDTO);
         }
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<ItemDTO>> GetSingle([FromRoute] int id, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<InvoiceDTO>> GetSingle([FromRoute] int id, CancellationToken cancellationToken = default)
         {
             Invoice invoice = await _invoiceService.getSingle(id, cancellationToken);
             InvoiceDTO result = _mapper.Map<Invoice, InvoiceDTO>(invoice);

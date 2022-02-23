@@ -288,6 +288,7 @@ namespace store.data.Services
             }
             await _tokoUnitOfWork.Invoice.Update(invoice, id, cancellationToken);
             await _tokoUnitOfWork.SaveChangeAsync(cancellationToken);
+            
             return invoice;
         }
 
@@ -311,6 +312,17 @@ namespace store.data.Services
                 if(invoice.InvoiceDetails.Count <= 0)
                 {
                     AddError("InvoiceDetails", "Harus memiliki invoice detail");
+                }
+                else
+                {
+                    foreach (InvoiceDetail invoiceDetail in invoice.InvoiceDetails)
+                    {
+                        if (invoiceDetail.Qty < 1)
+                        {
+                            Item item = _tokoUnitOfWork.Item.getSingle(invoiceDetail.ItemId).Result;
+                            AddError("InvoiceDetail","Invoice detail id : "+invoiceDetail.Id+" Item Id : "+item.Id+" Nama : " +item.Name+ " Harus memiliki quantity");
+                        }
+                    }
                 }
             }
             return GetServiceState();
@@ -347,6 +359,7 @@ namespace store.data.Services
                 {
                     AddError("Id", "Id harus diisi");
                 }
+                
             }
             
 
