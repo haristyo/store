@@ -140,7 +140,11 @@ namespace store.data.Services
                 {
                     AddError("Code","Code Harus Diisi.");
                 }
-                if(0 >= item.Price){
+                if (item.Price == null)
+                {
+                    AddError("Price", "Harga harus Bertipe Angka");
+                }
+                if (0 >= item.Price){
                     AddError("Price", "Harga harus Lebih Besar daripada 0");
                 }
             }
@@ -302,7 +306,7 @@ namespace store.data.Services
                 }
                 if (string.IsNullOrEmpty( Convert.ToString (invoice.InvoiceDate)))
                 {
-                    AddError("Code", "Tanggal Harus Diisi.");
+                    AddError("InvoiceDate", "Tanggal Harus Diisi.");
                 }
                 if(invoice.InvoiceDetails.Count <= 0)
                 {

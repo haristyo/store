@@ -10,8 +10,8 @@ namespace store.core.Entities
         public DateTime? InvoiceDate { get; set; }
         public int? InvoiceNo { get; set; }
 
-        private List<InvoiceDetail> _InvoiceDetails = new List<InvoiceDetail>();
-        public virtual IReadOnlyList<InvoiceDetail> InvoiceDetails => _InvoiceDetails.AsReadOnly();
+        private List<InvoiceDetail?> _InvoiceDetails = new List<InvoiceDetail?>();
+        public virtual IReadOnlyList<InvoiceDetail?> InvoiceDetails => _InvoiceDetails.AsReadOnly();
         //public List<City> Cities { get; set; }
         public void addInvoiceDetail(int qty, int itemId)
         {

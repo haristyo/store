@@ -10,14 +10,14 @@ namespace store.Profiles.DTO
         public int Id { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public int? InvoiceNo { get; set; }
-        public List<InvoiceDetailDTO> InvoiceDetails { get; set; }
+        public List<InvoiceDetailDTO?> InvoiceDetails { get; set; }
 
     }
     public class ItemDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public double Price { get; set; }
+        public double? Price { get; set; }
         public string Code { get; set; }
     }
     public class InvoiceDetailDTO
@@ -35,10 +35,10 @@ namespace store.Profiles.DTO
         {
             CreateMap<Invoice, InvoiceDTO>();
             //CreateMap<InvoiceDTO, Invoice>().ForMember(f => f.InvoiceDetails, opt => opt.Ignore()); //tambahin di controller lalu di looping
-
-
             CreateMap<Item, ItemDTO>().ReverseMap();
             //CreateMap<InvoiceDetail, InvoiceDetailDTO>().ReverseMap();
+
+
 
             CreateMap<InvoiceDTO, Invoice>()
                 .ForMember(f => f.InvoiceDetails, opt => opt.Ignore())

@@ -15,7 +15,7 @@ namespace store.core.Entities
         public int Id { get; set; }
         // public virtual InvoiceDetail? InvoiceDetail { get; set; }
         public string Name { get; set; }
-        public double Price { get; set; }
+        public double? Price { get; set; }
         public string Code { get; set; }
     }
 

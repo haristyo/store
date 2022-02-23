@@ -55,13 +55,25 @@ namespace store.Controllers
                 }
                 return BadRequest(ModelState);
             }
-            return Ok("berhasil dihapus");
+            return Ok("Terhapus");
+            
         }
-
+         public int TanggalkeInt(DateTime dateDate)
+        {
+            return Convert.ToInt32(dateDate.Year * 60 * 60 * 24 * 31 * 12 + dateDate.Month * 60 * 60 * 24 * 31 + dateDate.Day * 60 * 60 * 24 + dateDate.Hour * 60 * 60 + dateDate.Minute * 60 + dateDate.Second);
+        }
         //public async Task<ActionResult<InvoiceDTO>> Insert(CancellationToken cancellationToken = default)
         [HttpPost]
         public async Task<ActionResult<InvoiceDTO>> Insert([FromBody] InvoiceDTO model, CancellationToken cancellationToken = default)
         {
+            if (model.InvoiceDate == null)
+            {
+                model.InvoiceDate = DateTime.Now;
+            }
+            if (model.InvoiceNo == null)
+            {
+                model.InvoiceNo = TanggalkeInt(DateTime.Now);
+            }
             Invoice invoiceInserted = _mapper.Map<InvoiceDTO, Invoice>(model);  
             //foreach(InvoiceDetailDTO invoiceDetailDTO in model.InvoiceDetails)
             //{
@@ -97,7 +109,7 @@ namespace store.Controllers
 
             if (await _invoiceService.Update(invoiceInserted, id, cancellationToken) == null)
             {
-                Dictionary<string, List<string>> errors = _itemService.GetError();
+                Dictionary<string, List<string>> errors = _invoiceService.GetError();
                 foreach (KeyValuePair<string, List<string>> error in errors)
                 {
                     foreach (string errorValue in error.Value)
